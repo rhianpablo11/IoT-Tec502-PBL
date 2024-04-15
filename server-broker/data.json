@@ -1,0 +1,10 @@
+[
+    {
+        "address": "192.168.0.115",
+        "deviceState": "online",
+        "lastData": "20",
+        "name": "engual ",
+        "state": "connected",
+        "type": "temp sensor"
+    }
+]
