@@ -162,10 +162,11 @@ def sendTempConstantly():
         temperature = getTemp(temp)
         # Obtendo a data e hora atual
         timeSend = datetime.now()
-        addressDisp = socket.gethostbyname(socket.getfqdn())
+        addressDisp = serverTCP.getsockname()[0]
         infoSend = {}
+        #print(serverTCP.getsockname()[0])
         #usar o comando 100 para poder indicar no broker que ta mandando aquela informação
-        infoSend[addressDisp] = (temperature, "100", deviceType, str(timeSend))
+        infoSend[addressDisp] = (str(temperature), "100", deviceType, str(timeSend)[0:19])
         serverUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
 
 

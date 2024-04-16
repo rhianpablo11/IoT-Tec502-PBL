@@ -78,5 +78,7 @@ print("Diferença em minutos:", diferenca_minutos)
 
 import threading
 
-lista = [{'id':54}]
+lista = {'id':54}
+if(lista['id']):
+    print('oia eu aqui')
 

@@ -7,32 +7,64 @@ from datetime import datetime, timedelta, time
 from flask import *
 import json
 import time
+from flask_cors import CORS
 
 global devices
 devices = {}
 msg=''
 global mensages
 mensages = {}
-data = [{}]
+
 
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route('/devices')
+@app.route('/devices', methods=['GET'])
 def getDevices():
     devicesList = []
+    print("DEVICES",devices)
+    print('MENSAGES', mensages)
+    for device in devices:
+        print('DEVICE', device)
+        if(device in mensages):
+            auxJson = {
+                "address": device,
+                "name": devices[device][1],
+                "lastData": mensages[device][0],
+                "type": mensages[device][1],
+                "timeLastData":mensages[device][2],
+                "deviceState": "conected"
+            }
+        else:
+            auxJson = {
+                "address": device,
+                "name": devices[device][1],
+                "lastData": "undefined",
+                "type": "undefined",
+                "timeLastData": "undefined",
+                "deviceState": "conected"
+            }
+        devicesList.append(auxJson)
     return make_response(jsonify(devicesList))
 
 
 @app.route("/devices", methods=['PUT'])
 def updateDataInterface():
     elemento = request.json
-    data = loadBD()
-    for device in data:
-        if (device["address"] == elemento["address"]):
-            device["name"] = elemento["name"]
-    saveBD(data)
-    return make_response(jsonify(data))
+    for device in devices:
+        if (device == elemento["address"]):
+            devices[device][1] = elemento["name"]
+            return make_response(jsonify(
+                {
+                    "address": device,
+                    "name": devices[device][1],
+                    "lastData": mensages[device][0],
+                    "type": mensages[device][1],
+                    "timeLastData":mensages[device][2],
+                    "deviceState": "conected"
+                }
+            ))
 
 
 threading.Thread(target=app.run, args=("localhost",8082), daemon=True).start()
@@ -42,13 +74,9 @@ def saveDevice(connection, address):
     #mandar informando o dispositivo para o CLIENT HTTP
     #receber esse valor e colocar na variavel deviceName
     deviceName = "nomeGenerico"
-    devices[address[0]] = (connection, deviceName)
+    devices[address[0]] = [connection, deviceName]
     print("DISPOSITIVOS ",devices)
-    loadData()
-    insertData(address)
 
-    
-    
 
 '''
 Vai tentar mandar uma mensagem requisitando o status do dispositivo,
@@ -74,12 +102,12 @@ def startServer():
     global serverUDP
     #SERVIDOR TCP
     serverTCP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serverTCP.bind(('192.168.0.115', 8080))
+    serverTCP.bind(('localhost', 8080))
     serverTCP.listen(1)
 
     #SERVIDOR UDP
     serverUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    serverUDP.bind(("192.168.0.115", 8081))
+    serverUDP.bind(("localhost", 8081))
 
 def acceptConnection():
     while True:
@@ -128,31 +156,7 @@ def deviceStatus():
                 except:
                     devices.pop(mensage)
                     mensages.pop(mensage)
-                    #retirar do json tambem
     
-
-def saveData(data):
-    with open (fr"server-broker/data.json", 'w') as dataArq:
-        json.dump(data, dataArq, indent=4)
-    dataArq.close()
-
-def updateData():
-    loadData()
-    global data
-
-    for elements in data:
-        print(elements)
-        print(mensages)
-        if('192.168.56.1' in mensages):
-            elements["lastData"] = str(mensages['192.168.56.1'][0])
-            elements["type"] = str(mensages['192.168.56.1'][1])
-    saveData(data)
-
-def callUpdateData():
-    time.sleep(1)
-    while True:
-        updateData()
-        time.sleep(3)
 
 
 
@@ -161,7 +165,7 @@ init()
 connecting = threading.Thread(target=acceptConnection, daemon=True).start()
 chuvaMensages = threading.Thread(target=receiveMensagesUDP, daemon=True).start()
 deviceIsOk = threading.Thread(target=deviceStatus, daemon=True).start()
-threading.Thread(target=callUpdateData, daemon=True).start()
+
 
 while 1:
     kk= input("digite: ")
