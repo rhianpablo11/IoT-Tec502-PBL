@@ -15,7 +15,7 @@ msg=''
 global mensages
 mensages = {}
 
-
+IP = socket.gethostbyname(socket.getfqdn())
 
 app = Flask(__name__)
 CORS(app)
@@ -34,7 +34,7 @@ def getDevices():
                 "lastData": mensages[device][0],
                 "type": mensages[device][1],
                 "timeLastData":mensages[device][2],
-                "deviceState": "conected"
+                "deviceState": mensages[device][3]
             }
         else:
             auxJson = {
@@ -43,7 +43,7 @@ def getDevices():
                 "lastData": "undefined",
                 "type": "undefined",
                 "timeLastData": "undefined",
-                "deviceState": "conected"
+                "deviceState": "desligado"
             }
         devicesList.append(auxJson)
     return make_response(jsonify(devicesList))
@@ -67,14 +67,15 @@ def updateDataInterface():
             ))
 
 
-threading.Thread(target=app.run, args=("localhost",8082), daemon=True).start()
+threading.Thread(target=app.run, args=(IP,8082), daemon=True).start()
 
 
 def saveDevice(connection, address):
     #mandar informando o dispositivo para o CLIENT HTTP
     #receber esse valor e colocar na variavel deviceName
     deviceName = "nomeGenerico"
-    devices[address[0]] = [connection, deviceName]
+    
+    devices[address[1]] = [connection, deviceName]
     print("DISPOSITIVOS ",devices)
 
 
@@ -102,12 +103,12 @@ def startServer():
     global serverUDP
     #SERVIDOR TCP
     serverTCP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serverTCP.bind(('localhost', 8080))
+    serverTCP.bind((IP, 8080))
     serverTCP.listen(1)
 
     #SERVIDOR UDP
     serverUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    serverUDP.bind(("localhost", 8081))
+    serverUDP.bind((IP, 8081))
 
 def acceptConnection():
     while True:
@@ -125,7 +126,23 @@ def organizeInfosReceived(dicioMensage):
     for device in dicioMensage:
         #vai verificar se a mensagem é a de envio padrao
         if(dicioMensage[device][1] == '100'):
-            mensages[device] = (dicioMensage[device][0], dicioMensage[device][2], dicioMensage[device][3])
+            if(dicioMensage[device][2] == 'temp sensor'):
+                if((device in mensages) and type(mensages[device][0])==list):
+                    histTemp = mensages[device][0]
+                else:
+                    histTemp = []
+                if(len(histTemp)>10):
+                    histTemp.pop(-1)
+                histTemp.insert(0, dicioMensage[device][0])
+                #chave o endereço ip do dispositivo = dado enviado, tipo do dispositivo, horario que enviou, estado do dispositivo
+                mensages[device] = (histTemp, dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4])
+            else:
+                #chave o endereço ip do dispositivo = dado enviado, tipo do dispositivo, horario que enviou, estado do dispositivo
+                mensages[device] = (dicioMensage[device][0], dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4])
+        elif (dicioMensage[device][1] == '101'):
+            mensages.pop(device)
+            devices.pop(device)
+
 
 def sendMensageTCP(address, mensage):
     devices[address][0].send(str(mensage).encode())
@@ -145,7 +162,8 @@ def receiveMensageTCP(address):
 
 def deviceStatus():
     while True:
-        for mensage in mensages:
+        mensagesCopy = mensages.copy()
+        for mensage in mensagesCopy:
             data = datetime.now() - datetime.strptime(mensages[mensage][2][0:19], '%Y-%m-%d %H:%M:%S')
             if(int(data.total_seconds() / 3600)>=1):
                 print("dispositivo deu problema ai viu")
@@ -180,23 +198,12 @@ while 1:
         mens = input('digita ai mane: ')
         mens += str("?"+socket.gethostbyname(socket.getfqdn()))
         print(mens)
-        sendMensageTCP('192.168.0.115', mens )
-        print(devices['192.168.0.115'][0].recv(1024).decode())
+        sendMensageTCP('172.16.103.10', mens )
+        #print(devices['192.168.0.115'][0].recv(1024).decode())
 
 '''===================================================================================='''
 '''===============================PARTE DA API REST====================================='''
 '''===================================================================================='''
-
-        
-#     #print(serverUDP.recv(1024).decode())
-#     #connection.send(str("107").encode())
-#     print(msg)
-#     # print(msg)
-#     # if(msg == "desligando"):
-#     #     serverTCP.close()
-#     #     serverUDP.close()
-#     #     break
-#     #print(serverUDP.recv(1024).decode())
 
 
 

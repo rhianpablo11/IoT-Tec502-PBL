@@ -9,12 +9,9 @@ import threading
 
 
 
-
-
-argumento =sys.argv[1:]
-print(argumento[0])
 temp = 20;
 randomMode = 0
+argumento =0
 state = 'desligado'
 msgTCP = ""
 deviceType = 'temp sensor'
@@ -29,14 +26,14 @@ def conectTCP(addresses):
             clientUDP.connect((addresses["IP"], int(addresses["UDP"])))
         except:
             print("Não foi possivel conectar nesse endereço/porta")
-            os.remove("/cache/ipServer.rp11")
+            os.remove("cache/ipServer.rp11")
             addresses = IPalready()
         else:
             break
     return clientTCP, clientUDP
     
 def IPalready():
-    if (not os.path.isdir("/cache/")) or not (os.path.isfile("/cache/ipServer.rp11")):
+    if (not os.path.isdir("cache/")) or not (os.path.isfile("cache/ipServer.rp11")):
         addresses = requestIP()
         return addresses
     else:
@@ -50,16 +47,16 @@ def requestIP():
     
     addresses = {"IP":IPaddress, "TCP":TCPport, "UDP": UDPport}
     print(addresses)
-    if not os.path.isdir('/cache/'):
-        os.mkdir('/cache/')
+    if not os.path.isdir('cache/'):
+        os.mkdir('cache/')
     
-    with open (fr"/cache/ipServer.rp11", 'wb') as addressesArq:
+    with open (fr"cache/ipServer.rp11", 'wb') as addressesArq:
         pickle.dump(addresses, addressesArq)
     addressesArq.close()
     return addresses
 
 def openIPCache():
-    with open(fr"/cache/ipServer.rp11", 'rb') as addressesArq:
+    with open(fr"cache/ipServer.rp11", 'rb') as addressesArq:
         addresses = pickle.load(addressesArq)
     print(addresses)
     return addresses
@@ -97,17 +94,15 @@ def decodeMensage():
     global msgTCP
     
     while True:
-        if(msgTCP == "107"):
-            sendMensageTCP(getTemp(temp))
+        #manda o dispositivo sair do stand-by
         if(msgTCP == "105"):
             state = 'ligado'
-            sendMensageTCP(str(state))
+            #sendMensageTCP(str(state))
+        #manda desligar o dispositivo
         if(msgTCP == "106"):
-            state = 'desligado'
-            sendMensageTCP(str(state))
-        if(msgTCP == "108"):
-            restartDevice()
-            sendMensageTCP(str(state))
+            state = 'stand-by'
+            #sendMensageTCP(str(state))
+        #requisita o estado do dispositivo
         if(msgTCP == "109"):
             sendMensageTCP(state)
         msgTCP = '400'
@@ -133,9 +128,9 @@ def receiveMensage():
 
 def randomSelection(arg):
     
-    if(int(arg[0]) == 1):
+    if(int(arg) == 1):
         return 1
-    elif(int(arg[0])==0):
+    elif(int(arg)==0):
         return 0
 
 def restartDevice():
@@ -159,15 +154,20 @@ def clearTerminal():
 def sendTempConstantly():
 
     while True:
-        temperature = getTemp(temp)
+        if(state == 'stand-by' or state == 'desligado'):
+            temperature = 'none'
+        else:
+            temperature = getTemp(temp)
         # Obtendo a data e hora atual
         timeSend = datetime.now()
-        addressDisp = serverTCP.getsockname()[0]
+        addressDisp = serverTCP.getsockname()[1]
+        #print(serverTCP.getsockname())
         infoSend = {}
         #print(serverTCP.getsockname()[0])
         #usar o comando 100 para poder indicar no broker que ta mandando aquela informação
-        infoSend[addressDisp] = (str(temperature), "100", deviceType, str(timeSend)[0:19])
+        infoSend[addressDisp] = (str(temperature), "100", deviceType, str(timeSend)[0:19], state)
         serverUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
+        time.sleep(1)
 
 
 
@@ -177,22 +177,27 @@ serverTCP, serverUDP = conectTCP(addresses)
 receiverTCP = threading.Thread(target=receiveMensage, daemon=True).start()
 sendRetorno = threading.Thread(target=decodeMensage, daemon=True).start()
 sendTempFullTime = threading.Thread(target=sendTempConstantly, daemon=True).start()
-
+state = 'ligado'
 while 1:
     print('Menu')
-    choice=input('1. Desligar\n2. Ligar\n3. Reiniciar\n4. Mudar temperatura\n5. Modo Random Temp\nDigite a sua escolha: ')
+    choice=input('1. Desligar\n2. Ligar\n3. Stand-by\n4. Mudar temperatura\n5. Modo Random Temp\nDigite a sua escolha: ')
     
     choice=int(choice)
     if(choice == 1): #desligamento fisico
-        sendMensageTCP("desligando")
+        timeSend = datetime.now()
+        addressDisp = serverTCP.getsockname()[0]
+        infoSend = {}
+        state = 'desligado'
+        infoSend[addressDisp] = (str(temp), "101", deviceType, str(timeSend)[0:19], state)
+        sendMensageUDP(str(infoSend))
         serverTCP.close()
         serverUDP.close()
         print("Sensor desligado")
         break
     elif(choice==2):
         state = 'ligado'
-    elif(choice == 3):
-        restartDevice()
+    elif(choice == 3): #coloca o dispositivo em stand-by
+        state = 'stand-by'
     elif(choice == 4):
         temp = input("Nova temperatura: ")
         randomMode = 0;
