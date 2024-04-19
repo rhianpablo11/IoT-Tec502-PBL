@@ -2,6 +2,7 @@ import styles from "./CardStyle.module.css"
 import logo from '../assets/logo.svg'
 import propsTypes from 'prop-types'
 import CardNoDevices from "./CardNoDevices";
+import CardNewDeviceDetected from "./CardNewDeviceDetected";
 
 function CardBackground(props){
     const data = new Date();
@@ -40,7 +41,7 @@ function CardBackground(props){
                         </h3>
                     </div>
                 </div>
-                <CardNoDevices />
+                <CardNewDeviceDetected />
                 
             </div>
             

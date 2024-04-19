@@ -1,12 +1,10 @@
 .cardBackground{
-    width: 99.6vw;
-    height: 99.6vh;
+    width: 100vw;
+    height: 100vh;
     background-image: url(../assets/backgroundDark.svg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    margin: 0.2vh 0.2vw 0.2vh 0.2vw;
-    border-radius: 20px;
     text-align: center;
     justify-content: center;
     
@@ -86,3 +84,114 @@
     box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
 }
 
+.newDeviceFound{
+    background-image: url(../assets/backgroundDark.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 37vw;
+    height: 75vh;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
+    border-radius: 20px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 4vh;
+    padding: 2rem;
+}
+
+.newDeviceFound h1{
+    font-weight: 620;
+    color: white;
+    margin: 0%;
+    margin-bottom: 1rem;
+}
+
+
+.newDeviceFound .iconNewDevice{
+    background-image: url(../assets/subBackgroundDark.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 20vw;
+    height: 35vh;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
+    border-radius: 20px;
+    margin: auto;
+}
+
+.iconNewDevice img{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 15rem;
+    margin-left: 2rem;
+    margin-top: 1.5rem;
+    
+}
+
+.infoDevice{
+    display: block;
+}
+
+.inputData{
+    margin: 0px;
+    padding: 0px;
+}
+
+.inputData h2{
+    display: inline-flex;
+    color: white;
+}
+.inputData input{
+    background-color: white;
+    border-radius: 10px;
+    height: 2.5rem;
+    width: 28vw;
+    margin: 0%;
+    margin-left: 1vw;
+    border-style: none;
+    color: rgb(65, 65, 65);
+    font-size: 1.2rem;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.329);
+}
+
+.inputData input:focus{
+    border-color: white;
+    border-style: dotted;
+}
+
+.retanguloInfo{
+    display: inline-flex;
+    background-color: white;
+    
+    height: 2.5rem;
+    width: 28vw;
+    text-align: center;
+    margin: 0;
+    margin-left: 1vw;
+    border-radius: 10px;
+    justify-content: center;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.329);
+    
+}
+
+.retanguloInfo h2{
+    font-weight: 350;
+    margin: 0;
+    color: black;
+}
+
+.buttonAddDevice{
+    
+}
+
+.buttonAddDevice button{
+    margin-top: 0.5rem;
+    background-color: white;
+    color: black;
+    font-size: 1.3rem;
+    font-weight: 600;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.329);
+}
