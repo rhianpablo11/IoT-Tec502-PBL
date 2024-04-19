@@ -3,6 +3,8 @@ import logo from '../assets/logo.svg'
 import propsTypes from 'prop-types'
 import CardNoDevices from "./CardNoDevices";
 import CardNewDeviceDetected from "./CardNewDeviceDetected";
+import CardDevicesBackground from "./CardDevicesBackground";
+import CardBackgroundControlDevices from "./CardBackgroundControlDevices";
 
 function CardBackground(props){
     const data = new Date();
@@ -41,7 +43,12 @@ function CardBackground(props){
                         </h3>
                     </div>
                 </div>
-                <CardNewDeviceDetected />
+                <div className={styles.mainScreen}>
+                    <CardDevicesBackground />
+                    <CardBackgroundControlDevices />
+                </div>
+                
+                
                 
             </div>
             

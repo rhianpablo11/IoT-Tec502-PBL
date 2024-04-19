@@ -195,3 +195,33 @@
     font-weight: 600;
     box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.329);
 }
+
+.cardDeviceBackground{
+    background: url(../assets/subBackgroundDark.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    width: 65vw;
+    height: 83.2vh;
+    margin-top: 3vh;
+    margin-left: 0.5vw;
+    border-radius: 30px;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
+}
+
+.cardControlBackground{
+    background: url(../assets/subBackgroundDark.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    width: 33vw;
+    height: 83.2vh;
+    margin-top: 3vh;
+    margin-left: 0.8vw;
+    border-radius: 20px;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
+}
+
+.mainScreen{
+    display: flex;
+}
