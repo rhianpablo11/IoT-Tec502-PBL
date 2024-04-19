@@ -7,7 +7,9 @@
     background-position: center;
     margin: 0.2vh 0.2vw 0.2vh 0.2vw;
     border-radius: 20px;
-
+    text-align: center;
+    justify-content: center;
+    
   }
 
 .topElements{
@@ -43,3 +45,44 @@
     text-align: end;
     justify-content: center;
 }
+
+.cardBackground .subCardNoDevices{
+    background: url(../assets/subBackgroundDark.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-top: 1.5vh;
+    width: 99.5vw;
+    height: 85vh;
+    border-radius: 50px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.897);
+    display: flex;
+}
+
+.textCenter h1{
+    font-weight: 500;
+    font-size: 5rem;
+    color: white;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 99.8vw;
+    margin-top: 30vh;
+    margin-bottom: 0px;
+    text-shadow: 1px 3px 10px rgba(0, 0, 0, 0.753);
+}
+
+.textCenter button{
+    background-color: white;
+    color: black;
+    width: 20rem;
+    height: 3.5rem;
+    font-size: 2.55rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 0%;
+    margin-top: 1.5rem;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
+}
+
