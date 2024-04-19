@@ -202,11 +202,17 @@
     background-repeat: no-repeat;
     background-size: auto;
     width: 65vw;
+    max-width: 65vw;
+    min-width: 65vw;
     height: 83.2vh;
+    max-height: 83.2vh;
+    min-height: 83.2vh;
     margin-top: 3vh;
     margin-left: 0.5vw;
     border-radius: 30px;
     box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .cardControlBackground{
@@ -222,6 +228,54 @@
     box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
 }
 
+.cardControlBackground h1{
+    color: white;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .mainScreen{
     display: flex;
+}
+
+.backgroundDevice{
+    background-color: white;
+    width: 30vw;
+    min-width: 30vw;
+    height: 39vh;
+    border-radius: 15px;
+    margin-left: 3vh;
+    margin-top: 1.5vh;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
+}
+
+.backgroundDevice h2{
+    color: black;
+    margin-top: 0.2rem;
+}
+
+.backgroundDevice button{
+    background: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.backgroundDevice button:hover{
+    border: none;
+}
+
+.backgroundDeviceGradient{
+    background: url(../assets/subBackgroundDark.svg);
+    background-position:center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    width: 28.8vw;
+    height: 33vh;
+    border-radius: 20px;
+    margin-top: 1vh;
+    margin-left: 0vw;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
 }
