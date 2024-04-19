@@ -1,0 +1,45 @@
+.cardBackground{
+    width: 99.6vw;
+    height: 99.6vh;
+    background-image: url(../assets/backgroundDark.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: 0.2vh 0.2vw 0.2vh 0.2vw;
+    border-radius: 20px;
+
+  }
+
+.topElements{
+    text-align: center;
+    justify-content: center;
+    display: inline-flex;
+    line-height: 0;
+}
+.topElements img{
+    padding-top: 20px;
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    width: 350px;
+    height: auto;
+}
+
+.topElements .greetingUser{
+    width: 37vw;
+    margin-top: 30px;
+    margin-left: 30px;
+    text-align:left;
+    justify-content: center;
+}
+.topElements .logo a{
+    width: 30vh;
+}
+
+.topElements .informations{
+    width: 35vw;
+    margin-top: 20px;
+    margin-right: 10px;
+    text-align: end;
+    justify-content: center;
+}

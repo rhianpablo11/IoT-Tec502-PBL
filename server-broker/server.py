@@ -66,6 +66,11 @@ def updateDataInterface():
                 }
             ))
 
+@app.route('/dados/<int:id>', methods=['PATCH'])
+def patch_data(id):
+    id = id
+    dados = request.json
+    return jsonify({'mensagem': f"id: {id}, e o outro {dados}"}), 200
 
 threading.Thread(target=app.run, args=(IP,8082), daemon=True).start()
 
@@ -133,7 +138,7 @@ def organizeInfosReceived(dicioMensage):
                     histTemp = []
                 if(len(histTemp)>10):
                     histTemp.pop(-1)
-                histTemp.insert(0, dicioMensage[device][0])
+                histTemp.insert(0, (dicioMensage[device][0], dicioMensage[device][3]))
                 #chave o endereço ip do dispositivo = dado enviado, tipo do dispositivo, horario que enviou, estado do dispositivo
                 mensages[device] = (histTemp, dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4])
             else:
