@@ -18,7 +18,7 @@ function CardControlDevices(props){
     const [deviceAddress, setDeviceAddress] = useState('')
     
     useEffect(()=>{
-        setDeviceAddress(props.address)
+        setDeviceAddress(props.address.address)
     },)
     const sendUpdateNameDevice = async () =>{
         

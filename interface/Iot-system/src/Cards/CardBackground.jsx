@@ -10,10 +10,26 @@ import { useState, useEffect, useContext, createContext } from "react";
 import { devicesDataContext } from "../AppGetData.jsx";
 export const DeviceSelectedContext = createContext()
 
-function CardBackground(props, {devicesList}){
+function CardBackground(props){
     const [deviceSelected, setDeviceSelected] = useState('')
     const [dateClock, setDateClock] = useState(new Date())
+    const [devicesList, setDevicesList] = useState([])
+    const devices = useContext(devicesDataContext)
+    const [devicesListIsEmpty, setDeviceListState] = useState(false);
+    //console.log(devices)
+    
     useEffect(()=>{
+        setDevicesList(devices)
+        console.log(devices)
+        if(devicesList.length>0){
+            setDeviceListState(true)
+        } else{
+            setDeviceListState(false)
+        }
+    },)
+
+    useEffect(()=>{
+        
         const intervalDate = setInterval(()=>{
             setDateClock(new Date())
         }, 1000)
@@ -53,11 +69,13 @@ function CardBackground(props, {devicesList}){
         infoServer = 'desconnected'
     }
 
-    let booleanoSubstituirPorContainIntensNaLista = false;
+    
+
     
 
 
-    if(booleanoSubstituirPorContainIntensNaLista){
+
+    if(!devicesListIsEmpty){
         return(
             <>
                 <div className={styles.cardBackground}>
@@ -76,7 +94,7 @@ function CardBackground(props, {devicesList}){
                         </div>
                         <div className={styles.informations}>
                             <h3>
-                                {dateClock}
+                                {formatDateClock()}
                             </h3>
                             <br></br>
                             <h3>

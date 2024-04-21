@@ -43,7 +43,7 @@ function CardDevicesBackground(props){
                 {devices.map((device, index)=>
                     
                     <li >
-                        <CardDevice assignAddress={testeReceber}  nameDevice={device.name} temp={device.lastData[0][0]} address={device.address}/>
+                        <CardDevice assignAddress={testeReceber} devic={device} nameDevice={device.name} temp={device.lastData[0][0]} address={device.address}/>
                     </li>)} 
             </ul>
         </div>

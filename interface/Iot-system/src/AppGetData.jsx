@@ -19,7 +19,7 @@ function AppGetData(){
         }
         requisitSearchDevices()
         
-        const interval = setInterval(requisitSearchDevices, 3000)
+        const interval = setInterval(requisitSearchDevices, 1000)
         return () => clearInterval(interval)
     }, [])
     return (

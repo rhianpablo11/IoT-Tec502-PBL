@@ -8,7 +8,7 @@ function CardBackgroundControlDevices(props){
         <>
         
             <div className={styles.cardControlBackground}>
-                <h1>{props.nameDevice}</h1>
+                <h1>{props.address.name}</h1>
                 <CardControlDevices address={props.address} state='stand-by'/>
             </div>
             

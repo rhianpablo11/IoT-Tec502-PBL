@@ -9,11 +9,12 @@ function CardNoDevices(){
         <div className={styles.subCardNoDevices}>
             <div  className={styles.textCenter}>
                 <h1>
-                    No devices connected
+                    No devices connected!
+                    <br></br>
+                    Please wait for a device to be detected!
                 </h1>
-                <button >
-                    Search  
-                </button>
+                
+                
             </div>
         </div>
     );
