@@ -56,9 +56,9 @@ function CardBackground(props){
         }
     }
     
-    const setDeviceForControl = (address)=>{
-        setDeviceSelected(address)
-        console.log('DEMOREI MAIS CHEGUEI PIVETE',address)
+    const setDeviceForControl = (device)=>{
+        setDeviceSelected(device)
+        console.log('DEMOREI MAIS CHEGUEI PIVETE ', device)
     }
 
     let infoServer = 'desconnected'
@@ -138,7 +138,7 @@ function CardBackground(props){
                     <div className={styles.mainScreen}>
                     
                             <CardDevicesBackground assignDeviceControl={setDeviceForControl}/>
-                            <CardBackgroundControlDevices address={deviceSelected}/>
+                            <CardBackgroundControlDevices device={deviceSelected}/>
                     </div>
                 </div>
             </>

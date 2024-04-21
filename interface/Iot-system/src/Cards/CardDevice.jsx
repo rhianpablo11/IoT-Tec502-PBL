@@ -12,8 +12,7 @@ function CardDevice(props){
     }
 
     const getAssignAddress = (e) =>{
-        console.log(props.address)
-        props.assignAddress(props.devic)
+        props.assignAddress(props.device)
     }
 
     return(
@@ -23,9 +22,9 @@ function CardDevice(props){
                     <div className={styles.backgroundDeviceLines}>
                         <img src={linesDesing}></img>
                     </div>
-                    <CardTempSensor temperature={props.temp}/>
+                    <CardTempSensor device={props.device}/>
                 </div>
-                <h2>{props.devic.name}</h2>
+                <h2>{props.device.name}</h2>
             </button>
             
         </div>

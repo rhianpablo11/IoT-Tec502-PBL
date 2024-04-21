@@ -30,10 +30,10 @@ function CardDevicesBackground(props){
       }
     
     const [deviceSelected, setDeviceSelected] = useState('')
-    const testeReceber = (address) => {
-        console.log('SOU EU',address)
-        setDeviceSelected(address)
-        props.assignDeviceControl(address)
+    const testeReceber = (device) => {
+        console.log('SOU EU',device)
+        setDeviceSelected(device)
+        props.assignDeviceControl(device)
     }
 
 
@@ -43,7 +43,7 @@ function CardDevicesBackground(props){
                 {devices.map((device, index)=>
                     
                     <li >
-                        <CardDevice assignAddress={testeReceber} devic={device} nameDevice={device.name} temp={device.lastData[0][0]} address={device.address}/>
+                        <CardDevice assignAddress={testeReceber} device={device}/>
                     </li>)} 
             </ul>
         </div>

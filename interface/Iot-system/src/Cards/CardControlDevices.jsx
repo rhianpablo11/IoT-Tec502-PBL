@@ -7,19 +7,15 @@ import { useEffect, useState } from "react"
 function CardControlDevices(props){
     let stateToPutDevice='stand-by'
     let comandToggleStateForSend = '400'
-    if(props.state == 'ligado'){
+    if(props.device.deviceState == 'ligado'){
         stateToPutDevice = 'stand-by'
         comandToggleStateForSend = '106'        
-    } else if(props.state == 'stand-by'){
+    } else if(props.device.deviceState == 'stand-by'){
         stateToPutDevice = 'ligado'
         comandToggleStateForSend = '105'
     }
     //console.log('OLAH EU AasQUI DINOVO ', props.address)
-    const [deviceAddress, setDeviceAddress] = useState('')
-    
-    useEffect(()=>{
-        setDeviceAddress(props.address.address)
-    },)
+
     const sendUpdateNameDevice = async () =>{
         
         const newName = document.getElementById('UpdateNameDevice').value
@@ -31,13 +27,13 @@ function CardControlDevices(props){
               },
               body: JSON.stringify({
                 'name': newName,
-                'address': deviceAddress.toString()
+                'address': props.device.address.toString()
               })
               
         })
         const resposta = await response.json
         console.log(resposta)
-        console.log(newName, props.address)
+        console.log(newName, props.device.address)
         document.getElementById('UpdateNameDevice').value = ''
     }
     
@@ -51,7 +47,7 @@ function CardControlDevices(props){
               },
               body: JSON.stringify({
                 'comand': '107',
-                'address': deviceAddress.toString()
+                'address': props.device.address.toString()
               })
               
         })
@@ -69,7 +65,7 @@ function CardControlDevices(props){
               },
               body: JSON.stringify({
                 'comand': comandToggleStateForSend,
-                'address': deviceAddress.toString()
+                'address': props.device.address.toString()
               })
               
         })
@@ -86,7 +82,7 @@ function CardControlDevices(props){
               },
               body: JSON.stringify({
                 'comand': '108',
-                'address': deviceAddress.toString()
+                'address': props.device.address.toString()
               })
               
         })
