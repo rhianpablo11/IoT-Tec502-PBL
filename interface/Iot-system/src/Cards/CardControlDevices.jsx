@@ -2,6 +2,7 @@ import styles from "./CardStyle.module.css"
 import line from '../assets/dividingLine.svg'
 import CardGraficTemp from "./CardGraficTemp"
 import propsTypes from 'prop-types'
+import { useEffect, useState } from "react"
 
 function CardControlDevices(props){
     let stateToPutDevice='stand-by'
@@ -13,8 +14,12 @@ function CardControlDevices(props){
         stateToPutDevice = 'ligado'
         comandToggleStateForSend = '105'
     }
+    //console.log('OLAH EU AasQUI DINOVO ', props.address)
+    const [deviceAddress, setDeviceAddress] = useState('')
     
-    const deviceAddress = '61342'
+    useEffect(()=>{
+        setDeviceAddress(props.address)
+    },)
     const sendUpdateNameDevice = async () =>{
         
         const newName = document.getElementById('UpdateNameDevice').value
@@ -26,12 +31,13 @@ function CardControlDevices(props){
               },
               body: JSON.stringify({
                 'name': newName,
-                'address': deviceAddress
+                'address': deviceAddress.toString()
               })
               
         })
         const resposta = await response.json
         console.log(resposta)
+        console.log(newName, props.address)
         document.getElementById('UpdateNameDevice').value = ''
     }
     
@@ -45,7 +51,7 @@ function CardControlDevices(props){
               },
               body: JSON.stringify({
                 'comand': '107',
-                'address': deviceAddress
+                'address': deviceAddress.toString()
               })
               
         })
@@ -63,7 +69,7 @@ function CardControlDevices(props){
               },
               body: JSON.stringify({
                 'comand': comandToggleStateForSend,
-                'address': deviceAddress
+                'address': deviceAddress.toString()
               })
               
         })
@@ -80,7 +86,7 @@ function CardControlDevices(props){
               },
               body: JSON.stringify({
                 'comand': '108',
-                'address': deviceAddress
+                'address': deviceAddress.toString()
               })
               
         })

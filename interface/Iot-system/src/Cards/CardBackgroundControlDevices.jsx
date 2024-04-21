@@ -3,6 +3,7 @@ import styles from "./CardStyle.module.css"
 import propsTypes from 'prop-types'
 
 function CardBackgroundControlDevices(props){
+    
     return(
         <>
         

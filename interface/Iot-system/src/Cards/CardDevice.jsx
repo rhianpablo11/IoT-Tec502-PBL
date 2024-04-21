@@ -6,11 +6,19 @@ import React,{useEffect, useState, useContext} from "react";
 import {DeviceSelectedContext} from './CardBackground'
 
 function CardDevice(props){
-    const [deviceSelected, setDeviceSelected] = useState(useContext(DeviceSelectedContext))
+    
+    const handleClick = (event) => {
+        event.stopPropagation()
+    }
+
+    const getAssignAddress = (e) =>{
+        console.log(props.address)
+        props.assignAddress(props.address)
+    }
 
     return(
-        <div  className={styles.backgroundDevice}>
-            <button>
+        <div  onClick={handleClick} className={styles.backgroundDevice}>
+            <button onClick={getAssignAddress}>
                 <div className={styles.backgroundDeviceGradient}>
                     <div className={styles.backgroundDeviceLines}>
                         <img src={linesDesing}></img>

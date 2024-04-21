@@ -229,6 +229,8 @@
     box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
     display: inline-flex;
     flex-wrap: wrap;
+    flex-direction: row ;
+    overflow: auto;
 }
 ul{
     margin: 0px;
@@ -236,6 +238,7 @@ ul{
     list-style-type: none;
     display: inline-flex;
     flex-wrap: wrap;
+    flex-direction: row;
 
 }
 

@@ -4,8 +4,8 @@ import React,{useEffect, useState, useContext} from "react";
 import { devicesDataContext } from "../AppGetData";
 import {DeviceSelectedContext} from './CardBackground'
 
-function CardDevicesBackground(){
-    const [deviceSelected, setDeviceSelected] = useState(useContext(DeviceSelectedContext))
+function CardDevicesBackground(props){
+    
     const [devicesList, setDevicesList] = useState([])
     const devices = useContext(devicesDataContext)
     //console.log(devices)
@@ -28,7 +28,13 @@ function CardDevicesBackground(){
           setClicked(true)
         }
       }
-    const farRaivaN =(e)=>console.log('SA MERDA ', e)
+    
+    const [deviceSelected, setDeviceSelected] = useState('')
+    const testeReceber = (address) => {
+        console.log('SOU EU',address)
+        setDeviceSelected(address)
+        props.assignDeviceControl(address)
+    }
 
 
     return(
@@ -37,7 +43,7 @@ function CardDevicesBackground(){
                 {devices.map((device, index)=>
                     
                     <li >
-                        <CardDevice onClick={console.log(index)} nameDevice={device.name} temp={device.lastData[0][0]}/>
+                        <CardDevice assignAddress={testeReceber}  nameDevice={device.name} temp={device.lastData[0][0]} address={device.address}/>
                     </li>)} 
             </ul>
         </div>

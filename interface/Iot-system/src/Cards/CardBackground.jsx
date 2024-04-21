@@ -12,8 +12,6 @@ export const DeviceSelectedContext = createContext()
 
 function CardBackground(props, {devicesList}){
     const [deviceSelected, setDeviceSelected] = useState('')
-    
-
     const [dateClock, setDateClock] = useState(new Date())
     useEffect(()=>{
         const intervalDate = setInterval(()=>{
@@ -42,6 +40,11 @@ function CardBackground(props, {devicesList}){
         }
     }
     
+    const setDeviceForControl = (address)=>{
+        setDeviceSelected(address)
+        console.log('DEMOREI MAIS CHEGUEI PIVETE',address)
+    }
+
     let infoServer = 'desconnected'
     if(props.connection){
         infoServer = 'connected'
@@ -51,6 +54,9 @@ function CardBackground(props, {devicesList}){
     }
 
     let booleanoSubstituirPorContainIntensNaLista = false;
+    
+
+
     if(booleanoSubstituirPorContainIntensNaLista){
         return(
             <>
@@ -113,8 +119,8 @@ function CardBackground(props, {devicesList}){
                     </div>
                     <div className={styles.mainScreen}>
                     
-                            <CardDevicesBackground />
-                            <CardBackgroundControlDevices address='52172'/>
+                            <CardDevicesBackground assignDeviceControl={setDeviceForControl}/>
+                            <CardBackgroundControlDevices address={deviceSelected}/>
                     </div>
                 </div>
             </>
