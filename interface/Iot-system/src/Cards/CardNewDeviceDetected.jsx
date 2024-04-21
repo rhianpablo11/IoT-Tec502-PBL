@@ -29,37 +29,40 @@ function CardNewDeviceDetected(props){
     }
 
     return(
-        <div className={styles.newDeviceFound} >
-            <div>
-                <h1>New device found</h1>
-                <div className={styles.iconNewDevice}>
-                    <img src={image}></img>
-                </div>
-                <div className={styles.infoDevice}>
-                    <div className={styles.inputData}>
-                        <h2>Name:</h2>
-                        <input id='newNameDevice' placeholder="Please, insert a name!"></input>
+        <div className={styles.putAlertInScreen}>
+            <div className={styles.newDeviceFound} >
+                <div>
+                    <h1>New device found</h1>
+                    <div className={styles.iconNewDevice}>
+                        <img src={image}></img>
                     </div>
-                    <div className={styles.inputData}>
-                        <h2 >Type: </h2>
-                        <div className={styles.retanguloInfo}>
-                            <h2>{props.type}</h2>
+                    <div className={styles.infoDevice}>
+                        <div className={styles.inputData}>
+                            <h2>Name:</h2>
+                            <input id='newNameDevice' placeholder="Please, insert a name!"></input>
+                        </div>
+                        <div className={styles.inputData}>
+                            <h2 >Type: </h2>
+                            <div className={styles.retanguloInfo}>
+                                <h2>{props.type}</h2>
+                            </div>
+                        </div>
+                        <div className={styles.inputData}>
+                            <h2>Address: </h2>
+                            <div className={styles.retanguloInfo}>
+                                <h2>{props.address}</h2>
+                            </div>
                         </div>
                     </div>
-                    <div className={styles.inputData}>
-                        <h2>Address: </h2>
-                        <div className={styles.retanguloInfo}>
-                            <h2>{props.address}</h2>
-                        </div>
+                    <div className={styles.buttonAddDevice}>
+                        <button onClick={changeName}>
+                            Add Device
+                        </button>
                     </div>
-                </div>
-                <div className={styles.buttonAddDevice}>
-                    <button onClick={changeName}>
-                        Add Device
-                    </button>
                 </div>
             </div>
         </div>
+        
     );
 }
 

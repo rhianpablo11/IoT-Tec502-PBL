@@ -14,7 +14,7 @@ function CardControlDevices(props){
         comandToggleStateForSend = '105'
     }
     
-    const deviceAddress = '52172'
+    const deviceAddress = '61342'
     const sendUpdateNameDevice = async () =>{
         
         const newName = document.getElementById('UpdateNameDevice').value

@@ -5,11 +5,40 @@ import CardNoDevices from "./CardNoDevices";
 import CardNewDeviceDetected from "./CardNewDeviceDetected";
 import CardDevicesBackground from "./CardDevicesBackground";
 import CardBackgroundControlDevices from "./CardBackgroundControlDevices";
+import CardControlDevices from "./CardControlDevices";
+import { useState, useEffect } from "react";
 
 function CardBackground(props){
-    const data = new Date();
-    data.getDate();
-    const dataFormated =data.getHours()+':'+data.getMinutes()+' '+data.getDate()+'/'+(data.getMonth()+1)+'/'+data.getFullYear()
+    //const data = new Date();
+    //data.getDate();
+    //const dataFormated =data.getHours()+':'+data.getMinutes()+' '+data.getDate()+'/'+(data.getMonth()+1)+'/'+data.getFullYear()
+    const [dateClock, setDateClock] = useState(new Date())
+    useEffect(()=>{
+        const intervalDate = setInterval(()=>{
+            setDateClock(new Date())
+        }, 1000)
+        return ()=>{
+            clearInterval(intervalDate)
+        }
+    }, [])
+
+    function formatDateClock(){
+        const hours = dateClock.getHours()
+        const minutes = dateClock.getMinutes()
+        const day = dateClock.getDate()
+        const month = dateClock.getMonth()+1
+        const year = dateClock.getFullYear()
+        return `${addZero(hours)}:${addZero(minutes)} ${addZero(day)}/${addZero(month)}/${year}`
+    }
+
+    function addZero(num){
+        if(num<10){
+            return '0'+num
+        } else{
+            return num
+        }
+    }
+    
     let infoServer = 'desconnected'
     if(props.connection){
         infoServer = 'connected'
@@ -38,7 +67,7 @@ function CardBackground(props){
                         </div>
                         <div className={styles.informations}>
                             <h3>
-                                {dataFormated}
+                                {dateClock}
                             </h3>
                             <br></br>
                             <h3>
@@ -71,7 +100,7 @@ function CardBackground(props){
                         </div>
                         <div className={styles.informations}>
                             <h3>
-                                {dataFormated}
+                                {formatDateClock()}
                             </h3>
                             <br></br>
                             <h3>
@@ -80,8 +109,10 @@ function CardBackground(props){
                         </div>
                     </div>
                     <div className={styles.mainScreen}>
-                        <CardNewDeviceDetected type='temp sesor' address='52172'/>
+                        
+                        <CardDevicesBackground />
                         <CardBackgroundControlDevices address='52172'/>
+                        
                         
                     </div>
                 </div>

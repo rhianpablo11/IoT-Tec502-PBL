@@ -1,275 +1,32 @@
 import CardDevice from "./CardDevice";
 import styles from "./CardStyle.module.css"
+import React,{useEffect, useState} from "react";
 
 function CardDevicesBackground(){
-    const listaProvisoria = [
-        {
-            "address": 58679,
-            "deviceState": "ligado",
-            "lastData": [
-                [
-                    "47",
-                    "2024-04-20 14:47:17"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:16"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:15"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:14"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:12"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:11"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:10"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:09"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:08"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:07"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:06"
-                ]
-            ],
-            "name": "Sensor da Area de Serviço",
-            "timeLastData": "2024-04-20 14:47:17",
-            "type": "temp sensor"
-        },
-        {
-            "address": 56574,
-            "deviceState": "ligado",
-            "lastData": [
-                [
-                    "50",
-                    "2024-04-20 14:47:59"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:58"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:57"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:56"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:55"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:54"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:53"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:52"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:50"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:49"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:48"
-                ]
-            ],
-            "name": "Sensor da Garagem",
-            "timeLastData": "2024-04-20 14:47:59",
-            "type": "temp sensor"
-        },
-        {
-            "address": 56586,
-            "deviceState": "ligado",
-            "lastData": [
-                [
-                    "20",
-                    "2024-04-20 14:48:00"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:58"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:57"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:56"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:55"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:54"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:53"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:52"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:51"
-                ],
-                [
-                    "none",
-                    "2024-04-20 14:47:50"
-                ]
-            ],
-            "name": "Sensor da Cozinha",
-            "timeLastData": "2024-04-20 14:48:00",
-            "type": "temp sensor"
-        },
-        {
-            "address": 56574,
-            "deviceState": "ligado",
-            "lastData": [
-                [
-                    "33",
-                    "2024-04-20 14:47:59"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:58"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:57"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:56"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:55"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:54"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:53"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:52"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:50"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:49"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:48"
-                ]
-            ],
-            "name": "Sensor da Sala",
-            "timeLastData": "2024-04-20 14:47:59",
-            "type": "temp sensor"
-        },
-        {
-            "address": 56574,
-            "deviceState": "ligado",
-            "lastData": [
-                [
-                    "25",
-                    "2024-04-20 14:47:59"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:58"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:57"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:56"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:55"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:54"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:53"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:52"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:50"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:49"
-                ],
-                [
-                    "20",
-                    "2024-04-20 14:47:48"
-                ]
-            ],
-            "name": "Sensor do Quarto",
-            "timeLastData": "2024-04-20 14:47:59",
-            "type": "temp sensor"
+
+    const [devicesList, setDevicesList] = useState([])
+    useEffect(()=>{
+        const requisitSearchDevices = async() => {
+            const response = await fetch('http://192.168.56.1:8082/devices',{
+                method:'GET',
+                headers: {
+                    'Content-Type': 'application/json', // Se o conteúdo for JSON
+                    // Outros cabeçalhos, se necessário
+                  },
+            })
+            
+            setDevicesList(await response.json())
+            console.log(devicesList)
         }
+        requisitSearchDevices()
         
-    ]
+        const interval = setInterval(requisitSearchDevices, 2000)
+        return () => clearInterval(interval)
+    }, [])
     return(
         <div className={styles.cardDeviceBackground}>
             <ul>
-                {listaProvisoria.map((device, index)=>
+                {devicesList.map((device, index)=>
                     
                     
                     <li>

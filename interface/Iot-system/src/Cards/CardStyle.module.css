@@ -86,6 +86,17 @@
     box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
 }
 
+.putAlertInScreen{
+    position: absolute;
+    z-index: 1;
+    width: 99vw;
+    height: 83vh;
+    backdrop-filter: blur(7px);
+    margin-top: 3.5vh;
+    margin-left: 0.5vw;
+    border-radius: 30px;
+}
+
 .newDeviceFound{
     background-image: url(../assets/backgroundDark.svg);
     background-repeat: no-repeat;
@@ -99,8 +110,9 @@
     justify-content: center;
     align-items: center;
     margin: auto;
-    margin-top: 4vh;
+
     padding: 2rem;
+    
 }
 
 .newDeviceFound h1{
@@ -157,12 +169,14 @@
     color: rgb(65, 65, 65);
     font-size: 1.2rem;
     box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.329);
+
 }
 
 .inputData input:focus{
     border-color: white;
     border-style: dotted;
 }
+
 
 .retanguloInfo{
     display: inline-flex;
