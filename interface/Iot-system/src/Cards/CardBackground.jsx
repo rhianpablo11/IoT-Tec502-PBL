@@ -6,12 +6,14 @@ import CardNewDeviceDetected from "./CardNewDeviceDetected";
 import CardDevicesBackground from "./CardDevicesBackground";
 import CardBackgroundControlDevices from "./CardBackgroundControlDevices";
 import CardControlDevices from "./CardControlDevices";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext, createContext } from "react";
+import { devicesDataContext } from "../AppGetData.jsx";
+export const DeviceSelectedContext = createContext()
 
-function CardBackground(props){
-    //const data = new Date();
-    //data.getDate();
-    //const dataFormated =data.getHours()+':'+data.getMinutes()+' '+data.getDate()+'/'+(data.getMonth()+1)+'/'+data.getFullYear()
+function CardBackground(props, {devicesList}){
+    const [deviceSelected, setDeviceSelected] = useState('')
+    
+
     const [dateClock, setDateClock] = useState(new Date())
     useEffect(()=>{
         const intervalDate = setInterval(()=>{
@@ -25,10 +27,11 @@ function CardBackground(props){
     function formatDateClock(){
         const hours = dateClock.getHours()
         const minutes = dateClock.getMinutes()
+        const seconds = dateClock.getSeconds()
         const day = dateClock.getDate()
         const month = dateClock.getMonth()+1
         const year = dateClock.getFullYear()
-        return `${addZero(hours)}:${addZero(minutes)} ${addZero(day)}/${addZero(month)}/${year}`
+        return `${addZero(hours)}:${addZero(minutes)}:${seconds} ${addZero(day)}/${addZero(month)}/${year}`
     }
 
     function addZero(num){
@@ -109,11 +112,9 @@ function CardBackground(props){
                         </div>
                     </div>
                     <div className={styles.mainScreen}>
-                        
-                        <CardDevicesBackground />
-                        <CardBackgroundControlDevices address='52172'/>
-                        
-                        
+                    
+                            <CardDevicesBackground />
+                            <CardBackgroundControlDevices address='52172'/>
                     </div>
                 </div>
             </>

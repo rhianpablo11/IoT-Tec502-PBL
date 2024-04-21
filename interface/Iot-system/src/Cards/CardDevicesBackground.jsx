@@ -1,36 +1,43 @@
 import CardDevice from "./CardDevice";
 import styles from "./CardStyle.module.css"
-import React,{useEffect, useState} from "react";
+import React,{useEffect, useState, useContext} from "react";
+import { devicesDataContext } from "../AppGetData";
+import {DeviceSelectedContext} from './CardBackground'
 
 function CardDevicesBackground(){
-
+    const [deviceSelected, setDeviceSelected] = useState(useContext(DeviceSelectedContext))
     const [devicesList, setDevicesList] = useState([])
-    useEffect(()=>{
-        const requisitSearchDevices = async() => {
-            const response = await fetch('http://192.168.56.1:8082/devices',{
-                method:'GET',
-                headers: {
-                    'Content-Type': 'application/json', // Se o conteúdo for JSON
-                    // Outros cabeçalhos, se necessário
-                  },
-            })
-            
-            setDevicesList(await response.json())
-            console.log(devicesList)
+    const devices = useContext(devicesDataContext)
+    //console.log(devices)
+    useEffect(() =>{
+        setDevicesList(devices)
+    },)
+
+    function setDeviceChoice(i){
+        setDeviceSelected(devicesList[i])
+        console.log(devicesList[i])
+    }
+
+
+
+    const [clicked, setClicked] = useState(false)
+    const handleClick = () => {
+        if (clicked === true) {
+          setClicked(false)
+        } else if (clicked === false) {
+          setClicked(true)
         }
-        requisitSearchDevices()
-        
-        const interval = setInterval(requisitSearchDevices, 2000)
-        return () => clearInterval(interval)
-    }, [])
+      }
+    const farRaivaN =(e)=>console.log('SA MERDA ', e)
+
+
     return(
         <div className={styles.cardDeviceBackground}>
             <ul>
-                {devicesList.map((device, index)=>
+                {devices.map((device, index)=>
                     
-                    
-                    <li>
-                        <CardDevice nameDevice={device.name} temp={device.lastData[0][0]}/>
+                    <li >
+                        <CardDevice onClick={console.log(index)} nameDevice={device.name} temp={device.lastData[0][0]}/>
                     </li>)} 
             </ul>
         </div>
