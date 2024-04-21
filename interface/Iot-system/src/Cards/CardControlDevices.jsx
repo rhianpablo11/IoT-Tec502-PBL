@@ -8,10 +8,10 @@ function CardControlDevices(props){
     let stateToPutDevice='stand-by'
     let comandToggleStateForSend = '400'
     if(props.device.deviceState == 'ligado'){
-        stateToPutDevice = 'stand-by'
+        stateToPutDevice = 'put stand-by'
         comandToggleStateForSend = '106'        
     } else if(props.device.deviceState == 'stand-by'){
-        stateToPutDevice = 'ligado'
+        stateToPutDevice = 'power-on'
         comandToggleStateForSend = '105'
     }
     //console.log('OLAH EU AasQUI DINOVO ', props.address)

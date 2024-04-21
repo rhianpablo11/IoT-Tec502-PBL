@@ -282,7 +282,8 @@ ul{
 
 .backgroundDevice h2{
     color: black;
-    margin-top: 0.2rem;
+    margin-top: 0.7rem;
+    font-size: 2rem;
 }
 
 .backgroundDevice button{

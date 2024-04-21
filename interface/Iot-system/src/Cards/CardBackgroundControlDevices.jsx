@@ -1,14 +1,18 @@
+import { useEffect, useState } from "react";
 import CardControlDevices from "./CardControlDevices";
 import styles from "./CardStyle.module.css"
 import propsTypes from 'prop-types'
 
 function CardBackgroundControlDevices(props){
-    
+    const [device, setDevice] = useState('')
+    useEffect(()=>{
+        setDevice(props.device)
+        console.log(device)
+    },)
     return(
         <>
-        
             <div className={styles.cardControlBackground}>
-                <h1>{props.device.name}</h1>
+                <h1>{device.name}</h1>
                 <CardControlDevices device={props.device}/>
             </div>
             
@@ -21,9 +25,9 @@ function CardBackgroundControlDevices(props){
 export default CardBackgroundControlDevices
 
 CardBackgroundControlDevices.propsTypes ={
-    nameDevice: propsTypes.string
+    device: propsTypes.object
 }
 
 CardBackgroundControlDevices.defaultProps ={
-    nameDevice: 'Sensor da Sala'
+    name: ' '
 }

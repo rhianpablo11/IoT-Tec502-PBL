@@ -17,10 +17,21 @@ function CardBackground(props){
     const devices = useContext(devicesDataContext)
     const [devicesListIsEmpty, setDeviceListState] = useState(false);
     //console.log(devices)
-    
+    function setDeviceForControl(device){
+        setDeviceSelected(device)
+        console.log('DEMOREI MAIS CHEGUEI PIVETE ', device)
+        return device
+    }
     useEffect(()=>{
         setDevicesList(devices)
-        console.log(devices)
+        console.log('esse car',devices)
+        
+        for(let i=0;i<devices.length;i++){
+            if(devices[i].address == deviceSelected.address){
+                setDeviceForControl(devices[i])
+            }
+        }
+
         if(devicesList.length>0){
             setDeviceListState(true)
         } else{
@@ -45,7 +56,7 @@ function CardBackground(props){
         const day = dateClock.getDate()
         const month = dateClock.getMonth()+1
         const year = dateClock.getFullYear()
-        return `${addZero(hours)}:${addZero(minutes)}:${seconds} ${addZero(day)}/${addZero(month)}/${year}`
+        return `${addZero(hours)}:${addZero(minutes)}:${addZero(seconds)} ${addZero(day)}/${addZero(month)}/${year}`
     }
 
     function addZero(num){
@@ -56,10 +67,7 @@ function CardBackground(props){
         }
     }
     
-    const setDeviceForControl = (device)=>{
-        setDeviceSelected(device)
-        console.log('DEMOREI MAIS CHEGUEI PIVETE ', device)
-    }
+
 
     let infoServer = 'desconnected'
     if(props.connection){
