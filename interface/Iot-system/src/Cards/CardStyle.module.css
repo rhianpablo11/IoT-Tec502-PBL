@@ -47,11 +47,13 @@
 .cardBackground .subCardNoDevices{
     background: url(../assets/subBackgroundDark.svg);
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 110%;
     background-position: center;
     margin-top: 1.5vh;
-    width: 99.5vw;
+    width: 99vw;
     height: 85vh;
+    margin-left: 0.5vw;
+    padding: 0px;
     border-radius: 50px;
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.897);
     display: flex;
@@ -64,7 +66,7 @@
     text-align: center;
     justify-content: center;
     align-items: center;
-    width: 99.8vw;
+    width: 99vw;
     margin-top: 30vh;
     margin-bottom: 0px;
     text-shadow: 1px 3px 10px rgba(0, 0, 0, 0.753);
@@ -112,7 +114,7 @@
 .newDeviceFound .iconNewDevice{
     background-image: url(../assets/subBackgroundDark.svg);
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 180%;
     background-position: center;
     width: 20vw;
     height: 35vh;
@@ -213,6 +215,14 @@
     box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
     display: flex;
     flex-wrap: wrap;
+}
+ul{
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    display: inline-flex;
+    flex-wrap: wrap;
+
 }
 
 .cardControlBackground{

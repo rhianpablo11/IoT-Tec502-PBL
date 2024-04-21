@@ -52,9 +52,14 @@ def getDevices():
 @app.route("/devices", methods=['PUT'])
 def updateDataInterface():
     elemento = request.json
+    print('ELEMENTO RECEBIDO: ', elemento)
+    print('ME MANDARAM NO HTTP',elemento["name"])
     for device in devices:
-        if (device == elemento["address"]):
+        print(device)
+        if (str(device) == elemento["address"]):
             devices[device][1] = elemento["name"]
+            print('EU RECEBI NO FOR',devices[device][1])
+            print('ME MANDARAM NO HTTP',elemento["name"])
             return make_response(jsonify(
                 {
                     "address": device,
@@ -65,12 +70,16 @@ def updateDataInterface():
                     "deviceState": "conected"
                 }
             ))
+    return make_response(jsonify(elemento))
 
-@app.route('/dados/<int:id>', methods=['PATCH'])
-def patch_data(id):
-    id = id
-    dados = request.json
-    return jsonify({'mensagem': f"id: {id}, e o outro {dados}"}), 200
+@app.route('/devices/control', methods=['PATCH'])
+def comandsControlDevice():
+    elemento = request.json
+    for device in devices:
+        if(str(device) == elemento['address']):
+            devices[device][0].send(str(elemento['comand']+'?'+IP).encode())
+    return make_response(jsonify(elemento))
+
 
 threading.Thread(target=app.run, args=(IP,8082), daemon=True).start()
 

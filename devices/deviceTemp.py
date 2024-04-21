@@ -102,6 +102,10 @@ def decodeMensage():
         if(msgTCP == "106"):
             state = 'stand-by'
             #sendMensageTCP(str(state))
+        if(msgTCP == "107"):
+            restartDevice()
+        if(msgTCP == '108'):
+            shutdownRoutine()
         #requisita o estado do dispositivo
         if(msgTCP == "109"):
             sendMensageTCP(state)
@@ -169,7 +173,15 @@ def sendTempConstantly():
         serverUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
         time.sleep(1)
 
-
+def shutdownRoutine():
+    timeSend = datetime.now()
+    addressDisp = serverTCP.getsockname()[1]
+    infoSend = {}
+    state = 'desligado'
+    infoSend[addressDisp] = (str(temp), "101", deviceType, str(timeSend)[0:19], state)
+    sendMensageUDP(str(infoSend))
+    serverTCP.close()
+    serverUDP.close()
 
 randomMode = randomSelection(argumento)
 addresses = IPalready();
@@ -184,14 +196,7 @@ while 1:
     
     choice=int(choice)
     if(choice == 1): #desligamento fisico
-        timeSend = datetime.now()
-        addressDisp = serverTCP.getsockname()[0]
-        infoSend = {}
-        state = 'desligado'
-        infoSend[addressDisp] = (str(temp), "101", deviceType, str(timeSend)[0:19], state)
-        sendMensageUDP(str(infoSend))
-        serverTCP.close()
-        serverUDP.close()
+        shutdownRoutine()
         print("Sensor desligado")
         break
     elif(choice==2):

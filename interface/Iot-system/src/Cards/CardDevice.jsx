@@ -4,14 +4,15 @@ import CardTempSensor from "./CardTempSensor";
 import linesDesing from '../assets/linhasCardDevice.svg'
 
 function CardDevice(props){
+    
     return(
         <div className={styles.backgroundDevice}>
-            <button>
+            <button >
                 <div className={styles.backgroundDeviceGradient}>
                     <div className={styles.backgroundDeviceLines}>
                         <img src={linesDesing}></img>
                     </div>
-                    <CardTempSensor />
+                    <CardTempSensor temperature={props.temp}/>
                 </div>
                 <h2>{props.nameDevice}</h2>
             </button>

@@ -11,6 +11,23 @@ function CardNewDeviceDetected(props){
     } else if (props.type == 'Smart TV'){
         image = smartTV
     }
+    const changeName = async () =>{
+        const name = document.getElementById('newNameDevice').value
+        const response = await fetch('http://192.168.56.1:8082/devices', {
+            method:'PUT',
+            headers: {
+                'Content-Type': 'application/json', // Se o conteúdo for JSON
+                // Outros cabeçalhos, se necessário
+              },
+            body: JSON.stringify({
+                'name': name,
+                'address': props.address
+            })
+        })
+        let resposta = await response.json
+        console.log(resposta)
+    }
+
     return(
         <div className={styles.newDeviceFound} >
             <div>
@@ -21,7 +38,7 @@ function CardNewDeviceDetected(props){
                 <div className={styles.infoDevice}>
                     <div className={styles.inputData}>
                         <h2>Name:</h2>
-                        <input placeholder="Please, insert a name!"></input>
+                        <input id='newNameDevice' placeholder="Please, insert a name!"></input>
                     </div>
                     <div className={styles.inputData}>
                         <h2 >Type: </h2>
@@ -37,7 +54,7 @@ function CardNewDeviceDetected(props){
                     </div>
                 </div>
                 <div className={styles.buttonAddDevice}>
-                    <button>
+                    <button onClick={changeName}>
                         Add Device
                     </button>
                 </div>

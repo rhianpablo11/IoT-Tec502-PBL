@@ -17,46 +17,82 @@ function CardBackground(props){
     else{
         infoServer = 'desconnected'
     }
-    return(
-        <>
-            <div className={styles.cardBackground}>
-                
-                <div className={styles.topElements}>
-                    <div className={styles.greetingUser}>
-                        <h2>
-                            Bom dia, {props.name} 
-                        </h2>
+
+    let booleanoSubstituirPorContainIntensNaLista = false;
+    if(booleanoSubstituirPorContainIntensNaLista){
+        return(
+            <>
+                <div className={styles.cardBackground}>
+                    
+                    <div className={styles.topElements}>
+                        <div className={styles.greetingUser}>
+                            <h2>
+                                Bom dia, {props.name} 
+                            </h2>
+                        </div>
+                        <div className={styles.logo}>
+                            <a href="#">
+                                <img src={logo}>
+                                </img>
+                            </a>
+                        </div>
+                        <div className={styles.informations}>
+                            <h3>
+                                {dataFormated}
+                            </h3>
+                            <br></br>
+                            <h3>
+                                server status: {infoServer}
+                            </h3>
+                        </div>
                     </div>
-                    <div className={styles.logo}>
-                        <a href="#">
-                            <img src={logo}>
-                            </img>
-                        </a>
-                    </div>
-                    <div className={styles.informations}>
-                        <h3>
-                            {dataFormated}
-                        </h3>
-                        <br></br>
-                        <h3>
-                            server status: {infoServer}
-                        </h3>
+                    <div className={styles.mainScreen}>
+                        <CardNoDevices />
                     </div>
                 </div>
-                <div className={styles.mainScreen}>
-                    <CardDevicesBackground />
-                    <CardBackgroundControlDevices />
+            </>
+        );
+    } else{
+        return(
+            <>
+                <div className={styles.cardBackground}>
+                    
+                    <div className={styles.topElements}>
+                        <div className={styles.greetingUser}>
+                            <h2>
+                                Bom dia, {props.name} 
+                            </h2>
+                        </div>
+                        <div className={styles.logo}>
+                            <a href="#">
+                                <img src={logo}>
+                                </img>
+                            </a>
+                        </div>
+                        <div className={styles.informations}>
+                            <h3>
+                                {dataFormated}
+                            </h3>
+                            <br></br>
+                            <h3>
+                                server status: {infoServer}
+                            </h3>
+                        </div>
+                    </div>
+                    <div className={styles.mainScreen}>
+                        <CardNewDeviceDetected type='temp sesor' address='52172'/>
+                        <CardBackgroundControlDevices address='52172'/>
+                        
+                    </div>
                 </div>
-                
-                
-                
-            </div>
-            
-            
-        </>
-        
-    );
+            </>
+        );
+    }
+
+    
 }
+
+
 CardBackground.propsTypes = {
     name: propsTypes.string,
     connected: propsTypes.bool

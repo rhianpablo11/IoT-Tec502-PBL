@@ -12,7 +12,7 @@ function CardTempSensor(props){
             </div>
             <div className={styles.mainInfoTemp}>
                 <h2>Temp:</h2>
-                <h1>{props.temperature}</h1>
+                <h1>{props.temperature}ºC</h1>
             </div>
             <div className={styles.secondaryText}>
                 <h3 className={styles.tempMin}>Temp min: </h3>

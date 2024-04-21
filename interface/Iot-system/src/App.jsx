@@ -4,9 +4,7 @@ import CardNoDevices from './Cards/CardNoDevices'
 function App() {
   return (
     <>
-      
       <CardBackground />
-      
     </>
   )
 }
