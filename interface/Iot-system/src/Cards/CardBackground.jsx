@@ -70,11 +70,112 @@ function CardBackground(props){
 
 
     let infoServer = 'desconnected'
-    if(props.connection){
+    if(props.statusServer){
         infoServer = 'connected'
+        if(!devicesListIsEmpty){
+            return(
+                <>
+                    <div className={styles.cardBackground}>
+                        
+                        <div className={styles.topElements}>
+                            <div className={styles.greetingUser}>
+                                <h2>
+                                    Bom dia, {props.name} 
+                                </h2>
+                            </div>
+                            <div className={styles.logo}>
+                                <a href="#">
+                                    <img src={logo}>
+                                    </img>
+                                </a>
+                            </div>
+                            <div className={styles.informations}>
+                                <h3>
+                                    {formatDateClock()}
+                                </h3>
+                                <br></br>
+                                <h3>
+                                    server status: {infoServer}
+                                </h3>
+                            </div>
+                        </div>
+                        <div className={styles.mainScreen}>
+                            <CardNoDevices />
+                        </div>
+                    </div>
+                </>
+            );
+        } else{
+            return(
+                <>
+                    <div className={styles.cardBackground}>
+                        
+                        <div className={styles.topElements}>
+                            <div className={styles.greetingUser}>
+                                <h2>
+                                    Bom dia, {props.name} 
+                                </h2>
+                            </div>
+                            <div className={styles.logo}>
+                                <a href="#">
+                                    <img src={logo}>
+                                    </img>
+                                </a>
+                            </div>
+                            <div className={styles.informations}>
+                                <h3>
+                                    {formatDateClock()}
+                                </h3>
+                                <br></br>
+                                <h3>
+                                    server status: {infoServer}
+                                </h3>
+                            </div>
+                        </div>
+                        <div className={styles.mainScreen}>
+                        
+                                <CardDevicesBackground assignDeviceControl={setDeviceForControl}/>
+                                <CardBackgroundControlDevices device={deviceSelected}/>
+                        </div>
+                    </div>
+                </>
+            );
+        }
     }
     else{
         infoServer = 'desconnected'
+        return(
+            <>
+                    <div className={styles.cardBackground}>
+                        
+                        <div className={styles.topElements}>
+                            <div className={styles.greetingUser}>
+                                <h2>
+                                    Bom dia, {props.name} 
+                                </h2>
+                            </div>
+                            <div className={styles.logo}>
+                                <a href="#">
+                                    <img src={logo}>
+                                    </img>
+                                </a>
+                            </div>
+                            <div className={styles.informations}>
+                                <h3>
+                                    {formatDateClock()}
+                                </h3>
+                                <br></br>
+                                <h3>
+                                    server status: {infoServer}
+                                </h3>
+                            </div>
+                        </div>
+                        <div className={styles.mainScreen}>
+                            
+                        </div>
+                    </div>
+                </>
+        )
     }
 
     
@@ -82,76 +183,8 @@ function CardBackground(props){
     
 
 
-
-    if(!devicesListIsEmpty){
-        return(
-            <>
-                <div className={styles.cardBackground}>
-                    
-                    <div className={styles.topElements}>
-                        <div className={styles.greetingUser}>
-                            <h2>
-                                Bom dia, {props.name} 
-                            </h2>
-                        </div>
-                        <div className={styles.logo}>
-                            <a href="#">
-                                <img src={logo}>
-                                </img>
-                            </a>
-                        </div>
-                        <div className={styles.informations}>
-                            <h3>
-                                {formatDateClock()}
-                            </h3>
-                            <br></br>
-                            <h3>
-                                server status: {infoServer}
-                            </h3>
-                        </div>
-                    </div>
-                    <div className={styles.mainScreen}>
-                        <CardNoDevices />
-                    </div>
-                </div>
-            </>
-        );
-    } else{
-        return(
-            <>
-                <div className={styles.cardBackground}>
-                    
-                    <div className={styles.topElements}>
-                        <div className={styles.greetingUser}>
-                            <h2>
-                                Bom dia, {props.name} 
-                            </h2>
-                        </div>
-                        <div className={styles.logo}>
-                            <a href="#">
-                                <img src={logo}>
-                                </img>
-                            </a>
-                        </div>
-                        <div className={styles.informations}>
-                            <h3>
-                                {formatDateClock()}
-                            </h3>
-                            <br></br>
-                            <h3>
-                                server status: {infoServer}
-                            </h3>
-                        </div>
-                    </div>
-                    <div className={styles.mainScreen}>
-                    
-                            <CardDevicesBackground assignDeviceControl={setDeviceForControl}/>
-                            <CardBackgroundControlDevices device={deviceSelected}/>
-                    </div>
-                </div>
-            </>
-        );
-    }
+    
+    
 
     
 }

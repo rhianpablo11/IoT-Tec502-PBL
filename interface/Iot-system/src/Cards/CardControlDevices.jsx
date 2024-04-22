@@ -92,7 +92,7 @@ function CardControlDevices(props){
 
     return (
         <>
-            <CardGraficTemp />
+            <CardGraficTemp device={props.device}/>
             <div className={styles.controlSection}>
                 <img src={line}></img>
                 <div className={styles.inputCamp}>

@@ -182,6 +182,7 @@ def shutdownRoutine():
     sendMensageUDP(str(infoSend))
     serverTCP.close()
     serverUDP.close()
+    
 
 randomMode = randomSelection(argumento)
 addresses = IPalready();
@@ -189,7 +190,7 @@ serverTCP, serverUDP = conectTCP(addresses)
 receiverTCP = threading.Thread(target=receiveMensage, daemon=True).start()
 sendRetorno = threading.Thread(target=decodeMensage, daemon=True).start()
 sendTempFullTime = threading.Thread(target=sendTempConstantly, daemon=True).start()
-state = 'ligado'
+state = 'stand-by'
 while 1:
     print('Menu')
     choice=input('1. Desligar\n2. Ligar\n3. Stand-by\n4. Mudar temperatura\n5. Modo Random Temp\nDigite a sua escolha: ')

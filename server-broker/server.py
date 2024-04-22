@@ -179,11 +179,10 @@ def deviceStatus():
         mensagesCopy = mensages.copy()
         for mensage in mensagesCopy:
             data = datetime.now() - datetime.strptime(mensages[mensage][2][0:19], '%Y-%m-%d %H:%M:%S')
-            if(int(data.total_seconds() / 3600)>=1):
+            if(int(data.total_seconds() / 80)>=1):
                 print("dispositivo deu problema ai viu")
                 try:
                     devices[mensage][0].send(str("109").encode())
-                    devices[mensage][0].settimout(10)
                     resp = devices[mensage][0].recv(1024).decode()
                 except:
                     devices.pop(mensage)

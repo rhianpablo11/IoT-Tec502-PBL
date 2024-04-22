@@ -4,28 +4,44 @@ export const devicesDataContext = createContext()
 
 function AppGetData(){
     const [devicesData, setDevicesData] = useState([])
+    const [serverState, setServerState] = useState(false)
     useEffect(()=>{
         const requisitSearchDevices = async() => {
-            const response = await fetch('http://192.168.56.1:8082/devices',{
+            try{
+                const response = await fetch('http://192.168.56.1:8082/devices',{
                 method:'GET',
                 headers: {
                     'Content-Type': 'application/json', // Se o conteúdo for JSON
                     // Outros cabeçalhos, se necessário
                   },
-            })
+                })
+                
+                
+                setDevicesData(await response.json())
+                setServerState(true)
+            }catch(Error){
+                setDevicesData([])
+                setServerState(false)
+            }
+            console.log('MAIS UMA VEZ')
             
-            setDevicesData(await response.json())
             
         }
-        requisitSearchDevices()
         
+        requisitSearchDevices()
+
         const interval = setInterval(requisitSearchDevices, 1000)
         return () => clearInterval(interval)
-    }, [])
+    },[])
+
+    
+
+
+
     return (
         <>
             <devicesDataContext.Provider value={devicesData}>
-                <CardBackground />
+                <CardBackground statusServer={serverState}/>
             </devicesDataContext.Provider>
             
         </>
