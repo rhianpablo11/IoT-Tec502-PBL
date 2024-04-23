@@ -5,10 +5,11 @@ export const devicesDataContext = createContext()
 function AppGetData(){
     const [devicesData, setDevicesData] = useState([])
     const [serverState, setServerState] = useState(false)
+    const addressBase = 'http://localhost:8082'
     useEffect(()=>{
         const requisitSearchDevices = async() => {
             try{
-                const response = await fetch('http://192.168.56.1:8082/devices',{
+                const response = await fetch((addressBase+'/devices').toString(),{
                 method:'GET',
                 headers: {
                     'Content-Type': 'application/json', // Se o conteúdo for JSON

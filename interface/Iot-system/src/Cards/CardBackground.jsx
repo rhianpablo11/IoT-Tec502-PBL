@@ -59,6 +59,17 @@ function CardBackground(props){
         return `${addZero(hours)}:${addZero(minutes)}:${addZero(seconds)} ${addZero(day)}/${addZero(month)}/${year}`
     }
 
+    function greetingUserChoice(){
+        console.log(dateClock.getHours())
+        if(dateClock.getHours()>5 && dateClock.getHours()<=12){
+            return 'Bom dia, '
+        } else if(dateClock.getHours()>=13 && dateClock.getHours()<18){
+            return 'Boa tarde, '
+        } else{
+            return 'Boa noite, '
+        }
+    }
+
     function addZero(num){
         if(num<10){
             return '0'+num
@@ -80,7 +91,7 @@ function CardBackground(props){
                         <div className={styles.topElements}>
                             <div className={styles.greetingUser}>
                                 <h2>
-                                    Bom dia, {props.name} 
+                                    {greetingUserChoice()}{props.name} 
                                 </h2>
                             </div>
                             <div className={styles.logo}>
@@ -113,7 +124,7 @@ function CardBackground(props){
                         <div className={styles.topElements}>
                             <div className={styles.greetingUser}>
                                 <h2>
-                                    Bom dia, {props.name} 
+                                    {greetingUserChoice()}{props.name} 
                                 </h2>
                             </div>
                             <div className={styles.logo}>
@@ -141,8 +152,7 @@ function CardBackground(props){
                 </>
             );
         }
-    }
-    else{
+    } else{
         infoServer = 'desconnected'
         return(
             <>
@@ -151,7 +161,7 @@ function CardBackground(props){
                         <div className={styles.topElements}>
                             <div className={styles.greetingUser}>
                                 <h2>
-                                    Bom dia, {props.name} 
+                                    {greetingUserChoice()}{props.name} 
                                 </h2>
                             </div>
                             <div className={styles.logo}>

@@ -15,11 +15,11 @@ function CardControlDevices(props){
         comandToggleStateForSend = '105'
     }
     //console.log('OLAH EU AasQUI DINOVO ', props.address)
-
+    const addressBase = 'http://localhost:8082'
     const sendUpdateNameDevice = async () =>{
         
         const newName = document.getElementById('UpdateNameDevice').value
-        const response = await fetch('http://192.168.56.1:8082/devices', {
+        const response = await fetch(addressBase+'/devices', {
             method:'PUT',
             headers: {
                 'Content-Type': 'application/json', // Se o conteúdo for JSON
@@ -39,7 +39,7 @@ function CardControlDevices(props){
     
     const sendRestartDevice = async ()=>{
         
-        const response = await fetch('http://192.168.56.1:8082/devices/control', {
+        const response = await fetch(addressBase+'/devices/control', {
             method:'PATCH',
             headers: {
                 'Content-Type': 'application/json', // Se o conteúdo for JSON
@@ -57,7 +57,7 @@ function CardControlDevices(props){
 
     const sendToggleStateDevice = async()=>{
         
-        const response = await fetch('http://192.168.56.1:8082/devices/control', {
+        const response = await fetch(addressBase+'/devices/control', {
             method:'PATCH',
             headers: {
                 'Content-Type': 'application/json', // Se o conteúdo for JSON
@@ -74,7 +74,7 @@ function CardControlDevices(props){
     }
 
     const sendDeleteDevice = async()=>{
-        const response = await fetch('http://192.168.56.1:8082/devices/control', {
+        const response = await fetch(addressBase+'/devices/control', {
             method:'PATCH',
             headers: {
                 'Content-Type': 'application/json', // Se o conteúdo for JSON

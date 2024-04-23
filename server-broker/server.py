@@ -81,7 +81,7 @@ def comandsControlDevice():
     return make_response(jsonify(elemento))
 
 
-threading.Thread(target=app.run, args=(IP,8082), daemon=True).start()
+
 
 
 def saveDevice(connection, address):
@@ -190,33 +190,19 @@ def deviceStatus():
     
 
 
-
+threading.Thread(target=app.run, args=('localhost',8082), daemon=True).start()
 init()
-
 connecting = threading.Thread(target=acceptConnection, daemon=True).start()
 chuvaMensages = threading.Thread(target=receiveMensagesUDP, daemon=True).start()
 deviceIsOk = threading.Thread(target=deviceStatus, daemon=True).start()
 
 
 while 1:
-    kk= input("digite: ")
-    print(mensages)
-    print(devices)
-    #print(devices['192.168.0.115'][0].recv(1024).decode())
-    if(kk == "1"):
+    choice= input("")
+
+    if(choice == "1"):
         serverTCP.close()
         serverUDP.close()
         break
-    if(kk =='2'):
-        mens = input('digita ai mane: ')
-        mens += str("?"+socket.gethostbyname(socket.getfqdn()))
-        print(mens)
-        sendMensageTCP('172.16.103.10', mens )
-        #print(devices['192.168.0.115'][0].recv(1024).decode())
-
-'''===================================================================================='''
-'''===============================PARTE DA API REST====================================='''
-'''===================================================================================='''
-
 
 
