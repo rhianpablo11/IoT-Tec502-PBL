@@ -43,6 +43,7 @@
     margin-right: 10px;
     text-align: end;
     justify-content: center;
+    color: white;
 }
 
 .cardBackground .subCardNoDevices{
@@ -609,47 +610,3 @@ ul{
     border-style: none;
 }
 
-@media (prefers-color-scheme: light){
-    .tempCardList{
-        background: url(../assets/subBackgroundLight.svg);
-    }
-    .backgroundDeviceGradient{
-        background: url(../assets/subBackgroundLight.svg);
-        background-position:top;
-        background-repeat: no-repeat;
-        background-size: 280%;
-    }
-    .cardControlBackground{
-        background: url(../assets/subBackgroundLight.svg);
-        background-position: top;
-        background-repeat: no-repeat;
-        background-size: 400%;
-    }
-    .cardDeviceBackground{
-        background: url(../assets/subBackgroundLight.svg);
-    }
-    .newDeviceFound .iconNewDevice{
-        background-image: url(../assets/subBackgroundLight.svg);
-    }
-    .newDeviceFound{
-        background-image: url(../assets/backgroundLight.svg);
-    }
-    .cardBackground .subCardNoDevices{
-        background: url(../assets/subBackgroundLight.svg);
-    }
-    .cardBackground{
-        background-image: url(../assets/backgroundLight.svg);
-    }
-    .cardDeviceBackground::-webkit-scrollbar-thumb{
-        background: rgb(15,5,76);
-        background: linear-gradient(0deg, rgba(15,5,76,1) 0%, rgba(191,215,205,1) 37%, rgba(128,195,202,1) 64%, rgba(15,5,76,1) 100%);
-    }
-    .graficArea::-webkit-scrollbar-thumb {
-        background: rgb(15,5,76);
-        background: linear-gradient(0deg, rgba(15,5,76,1) 0%, rgba(191,215,205,1) 37%, rgba(128,195,202,1) 64%, rgba(15,5,76,1) 100%);
-        
-    }
-    .valuesSecondary {
-        color: white;
-    }
-}

@@ -5,7 +5,7 @@ export const devicesDataContext = createContext()
 function AppGetData(){
     const [devicesData, setDevicesData] = useState([])
     const [serverState, setServerState] = useState(false)
-    const addressBase = 'http://localhost:8082'
+    const addressBase = process.env.API_BROKER_URL
     useEffect(()=>{
         const requisitSearchDevices = async() => {
             try{
@@ -24,7 +24,7 @@ function AppGetData(){
                 setDevicesData([])
                 setServerState(false)
             }
-            console.log('MAIS UMA VEZ')
+            console.log('MAIS UMA VEZ', devicesData)
             
             
         }

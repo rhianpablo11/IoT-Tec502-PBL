@@ -36,6 +36,7 @@ function CardBackground(props){
             setDeviceListState(true)
         } else{
             setDeviceListState(false)
+            setDeviceSelected('')
         }
     },)
 

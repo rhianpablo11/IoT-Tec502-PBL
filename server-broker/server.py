@@ -16,7 +16,7 @@ global mensages
 mensages = {}
 
 IP = socket.gethostbyname(socket.getfqdn())
-
+print('IP SERVER: ',IP)
 app = Flask(__name__)
 CORS(app)
 
@@ -25,6 +25,7 @@ def getDevices():
     devicesList = []
     print("DEVICES",devices)
     print('MENSAGES', mensages)
+    print(IP)
     for device in devices:
         print('DEVICE', device)
         if(device in mensages):
@@ -89,7 +90,7 @@ def saveDevice(connection, address):
     #receber esse valor e colocar na variavel deviceName
     deviceName = "nomeGenerico"
     
-    devices[address[1]] = [connection, deviceName]
+    devices[address[0]] = [connection, deviceName]
     print("DISPOSITIVOS ",devices)
 
 
@@ -190,7 +191,7 @@ def deviceStatus():
     
 
 
-threading.Thread(target=app.run, args=('localhost',8082), daemon=True).start()
+threading.Thread(target=app.run, args=(IP,8082), daemon=True).start()
 init()
 connecting = threading.Thread(target=acceptConnection, daemon=True).start()
 chuvaMensages = threading.Thread(target=receiveMensagesUDP, daemon=True).start()
@@ -199,7 +200,7 @@ deviceIsOk = threading.Thread(target=deviceStatus, daemon=True).start()
 
 while 1:
     choice= input("")
-
+    print(mensages)
     if(choice == "1"):
         serverTCP.close()
         serverUDP.close()
