@@ -15,7 +15,7 @@ msg=''
 global mensages
 mensages = {}
 
-IP = socket.gethostbyname(socket.getfqdn())
+IP = '0.0.0.0'
 print('IP SERVER: ',IP)
 app = Flask(__name__)
 CORS(app)
@@ -128,6 +128,7 @@ def startServer():
 def acceptConnection():
     while True:
         connection, address = serverTCP.accept()
+        print(connection)
         saveDevice(connection, address)
 
 def receiveMensagesUDP():

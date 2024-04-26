@@ -7,17 +7,25 @@ import {DeviceSelectedContext} from './CardBackground'
 
 function CardDevice(props){
     
+    const [clicked, setClicked] = useState(false)
     const handleClick = (event) => {
         event.stopPropagation()
     }
 
     const getAssignAddress = (e) =>{
-        props.assignAddress(props.device)
+        if(clicked){
+            props.assignAddress(props.device)
+            setClicked(false)
+        } else{
+            props.assignAddress('')
+            setClicked(true)
+        }
+        
     }
 
     return(
         <div  onClick={handleClick} className={styles.backgroundDevice}>
-            <button onClick={getAssignAddress}>
+            <button onClick={ getAssignAddress} >
                 <div className={styles.backgroundDeviceGradient}>
                     <div className={styles.backgroundDeviceLines}>
                         <img src={linesDesing}></img>

@@ -15,7 +15,7 @@ function CardControlDevices(props){
         comandToggleStateForSend = '105'
     }
     //console.log('OLAH EU AasQUI DINOVO ', props.address)
-    const addressBase = 'http://192.168.56.1:8082'
+    const addressBase = 'http://192.168.0.115:8082'
     const sendUpdateNameDevice = async () =>{
         
         const newName = document.getElementById('UpdateNameDevice').value

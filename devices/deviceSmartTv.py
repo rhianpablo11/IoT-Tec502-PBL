@@ -60,14 +60,14 @@ def openIPCache():
 
 def sendMensageTCP(msg):
     msg = str(f"{msg}?{addressRequisited}")
-    serverTCP.send(str(msg).encode())
+    clientTCP.send(str(msg).encode())
 
 def sendMensageUDP(msg):
-    serverUDP.sendto(str(msg).encode(), (addresses["IP"], int(addresses["UDP"])))
+    clientUDP.sendto(str(msg).encode(), (addresses["IP"], int(addresses["UDP"])))
 
 def receiveMensage():
     while True:
-        msg = serverTCP.recv(1024).decode()     
+        msg = clientTCP.recv(1024).decode()     
         msg =msg.split("?")
         global addressRequisited
         print(msg)
@@ -121,17 +121,17 @@ def sendTempConstantly():
         temperature = getTemp(temp)
         # Obtendo a data e hora atual
         timeSend = datetime.now()
-        addressDisp = serverTCP.getsockname()[0]
+        addressDisp = clientTCP.getsockname()[0]
         infoSend = {}
-        #print(serverTCP.getsockname()[0])
+        #print(clientTCP.getsockname()[0])
         #usar o comando 100 para poder indicar no broker que ta mandando aquela informação
         infoSend[addressDisp] = (str(temperature), "100", deviceType, str(timeSend)[0:19])
-        serverUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
+        clientUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
 
 
 
 addresses = IPalready();
-serverTCP, serverUDP = conectTCP(addresses);
+clientTCP, clientUDP = conectTCP(addresses);
 receiverTCP = threading.Thread(target=receiveMensage, daemon=True).start()
 sendRetorno = threading.Thread(target=decodeMensage, daemon=True).start()
 
@@ -144,8 +144,8 @@ while 1:
     choice=int(choice)
     if(choice == 1): #desligamento fisico
         sendMensageTCP("desligando")
-        serverTCP.close()
-        serverUDP.close()
+        clientTCP.close()
+        clientUDP.close()
         print("Sensor desligado")
         break
     elif(choice==2):

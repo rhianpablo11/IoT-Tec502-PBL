@@ -5,7 +5,7 @@ export const devicesDataContext = createContext()
 function AppGetData(){
     const [devicesData, setDevicesData] = useState([])
     const [serverState, setServerState] = useState(false)
-    const addressBase = process.env.API_BROKER_URL
+    const addressBase = 'http://192.168.0.115:8082'
     useEffect(()=>{
         const requisitSearchDevices = async() => {
             try{
