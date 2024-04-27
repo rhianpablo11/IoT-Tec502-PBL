@@ -38,6 +38,22 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  color: white;
+}
+h2{
+  color: white;
+}
+h3{
+  color: white;
+}
+h4{
+  color: white;
+}
+h5{
+  color: white;
+}
+h6{
+  color: white;
 }
 
 button {

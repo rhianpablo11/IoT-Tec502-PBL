@@ -42,17 +42,6 @@ function CardGraficTemp(props){
             </>
             
         );
-    } else{
-        return(
-            <div className={styles.NoSelectDevice}>
-                <h1>
-                    No devices selected!
-                </h1>
-                <h2>
-                    Please click on any sensor for more information!
-                </h2>
-            </div>
-        );
     }
     
 }

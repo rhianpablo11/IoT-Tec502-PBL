@@ -1,5 +1,5 @@
 # Use a imagem oficial do Python
-FROM python:3.9-slim
+FROM python:3.12-bullseye
 
 COPY . ./app
 # Defina o diretório de trabalho

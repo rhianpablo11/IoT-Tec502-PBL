@@ -48,18 +48,6 @@ def conectTCP():
             count=0
             break
     
-    
-def requestIP():
-    print("Endereço IP do servidor não configurado");
-    IPaddress = input("Digite o endereço IP do servidor: ")
-    TCPport = input("Digite a porta de conexão TCP: ")
-    UDPport = input("Digite a porta de conexão UDP: ")
-    
-    addresses = {"IP":IPaddress, "TCP":TCPport, "UDP": UDPport}
-    print(addresses)
-    
-    return addresses
-
 def setState(State):
     state = State;
 
@@ -108,10 +96,13 @@ def receiveMensage():
                     shutdownRoutine()
                 msgTCP = '400'
         except:
-            connected = False
-            clearTerminal()
-            print('Conexão com o servidor foi interrompida!')
-            conectTCP()
+            if(state!='desligado'):
+                connected = False
+                clearTerminal()
+                print('Conexão com o servidor foi interrompida!')
+                conectTCP()
+            else:
+                break
 
             
 
@@ -134,6 +125,7 @@ def clearTerminal():
 
 def sendTempConstantly():
     global state
+    global connected
     while True:
         if(connected):
             if(state == 'stand-by' or state == 'desligado'):
@@ -148,7 +140,10 @@ def sendTempConstantly():
             #usar o comando 100 para poder indicar no broker que ta mandando aquela informação
             infoSend[addressDisp] = (str(temperature), "100", deviceType, str(timeSend)[0:19], state)
             print(infoSend)
-            clientUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
+            try:
+                clientUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
+            except:
+                connected=False
             time.sleep(1)
         
 
@@ -156,9 +151,11 @@ def shutdownRoutine():
     timeSend = datetime.now()
     global endThread
     global state
+    global connected
     endThread = True
     infoSend = {}
     state = 'desligado'
+    connected = False
     infoSend[addressDisp] = (str(temp), "101", deviceType, str(timeSend)[0:19], state)
     clientUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
     clientTCP.close()
@@ -168,7 +165,6 @@ def menu():
     global state
     global randomMode
     global temp
-
     while 1:
         if(connected):
             print('Menu')
@@ -195,7 +191,10 @@ def menu():
                     escolha = input("O modo de envio de temperatura aleatorio esta desativado, deseja mudar o estado?\nDigite [S]  para sim, ou [N] para nao\nDigite a sua escolha: ").lower()
                     if(escolha == "s"):
                         randomMode = 1;
-            clearTerminal()
+            clearTerminal()  
+
+    
+        
 
 #ipBroker= os.getenv('IP_BROKER')
 ipBroker='192.168.0.115'
@@ -203,7 +202,6 @@ connected = False
 print('IP ENV', ipBroker)
 addresses = {'IP':ipBroker, 'UDP':8081, 'TCP':8080}
 print(addresses)
-#addresses = requestIP();
 conectTCP()
 #addressDisp = socket.gethostbyname(socket.getfqdn())
 addressDisp=ipBroker
@@ -211,7 +209,7 @@ addressDisp=ipBroker
 
 receiverTCP = threading.Thread(target=receiveMensage, daemon=True).start()
 sendTempFullTime = threading.Thread(target=sendTempConstantly, daemon=True).start()
-menu = threading.Thread(target=menu, daemon=False ).start()
+menu = threading.Thread(target=menu, daemon=True ).start()
 
 
 import signal
@@ -225,4 +223,5 @@ signal.signal(signal.SIGINT, handle_exit)  # Captura Ctrl + C
 signal.signal(signal.SIGTERM, handle_exit) 
 
     
-
+while 1 and (state != 'desligado'):
+    pass

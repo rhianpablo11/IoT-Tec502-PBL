@@ -3,6 +3,7 @@ import line from '../assets/dividingLine.svg'
 import CardGraficTemp from "./CardGraficTemp"
 import propsTypes from 'prop-types'
 import { useEffect, useState } from "react"
+import CardControlTV from "./CardControlTV"
 
 function CardControlDevices(props){
     let stateToPutDevice='stand-by'
@@ -89,25 +90,59 @@ function CardControlDevices(props){
         const resposta = await response.json
         console.log(resposta)
     }
-
-    return (
-        <>
-            <CardGraficTemp device={props.device}/>
-            <div className={styles.controlSection}>
-                <img src={line}></img>
-                <div className={styles.inputCamp}>
-                    <input id='UpdateNameDevice' placeholder="New name for device"></input>
-                    <button onClick={sendUpdateNameDevice}>Update</button>
+    console.log(props.device)
+    if(props.device.type == 'temp sensor'){
+        return (
+            <>
+                <CardGraficTemp device={props.device}/>
+                <div className={styles.controlSection}>
+                    <img src={line}></img>
+                    <div className={styles.inputCamp}>
+                        <input id='UpdateNameDevice' placeholder="New name for device"></input>
+                        <button onClick={sendUpdateNameDevice}>Update</button>
+                    </div>
+                    <div className={styles.controlsSecondary}>
+                        <h1>Controls:</h1>
+                        <button onClick={sendToggleStateDevice}>{stateToPutDevice}</button>
+                        <button onClick={sendRestartDevice}>Restart</button>
+                        <button onClick={sendDeleteDevice}>Delete</button>
+                    </div>
                 </div>
-                <div className={styles.controlsSecondary}>
-                    <h1>Controls:</h1>
-                    <button onClick={sendToggleStateDevice}>{stateToPutDevice}</button>
-                    <button onClick={sendRestartDevice}>Restart</button>
-                    <button onClick={sendDeleteDevice}>Delete</button>
+            </>
+        );
+    } else if(props.device.type == 'smart Tv'){
+        
+        return (
+            <>
+                <CardControlTV device={props.device} />
+                <div className={styles.controlSection}>
+                    <img src={line}></img>
+                    <div className={styles.inputCamp}>
+                        <input id='UpdateNameDevice' placeholder="New name for device"></input>
+                        <button onClick={sendUpdateNameDevice}>Update</button>
+                    </div>
+                    <div className={styles.controlsSecondary}>
+                        <h1>Controls:</h1>
+                        <button onClick={sendToggleStateDevice}>{stateToPutDevice}</button>
+                        <button onClick={sendRestartDevice}>Restart</button>
+                        <button onClick={sendDeleteDevice}>Delete</button>
+                    </div>
                 </div>
+            </>
+        );
+    }else{
+        return(
+            <div className={styles.NoSelectDevice}>
+                <h1>
+                    No devices selected!
+                </h1>
+                <h2>
+                    Please click on any sensor for more information!
+                </h2>
             </div>
-        </>
-    );
+        );
+    }
+    
 }
 
 CardControlDevices.propsTypes ={

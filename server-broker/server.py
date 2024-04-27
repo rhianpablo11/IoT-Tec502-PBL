@@ -23,11 +23,9 @@ CORS(app)
 @app.route('/devices', methods=['GET'])
 def getDevices():
     devicesList = []
-    print("DEVICES",devices)
-    print('MENSAGES', mensages)
-    print(IP)
+    print("\nDEVICES\n",devices)
+    print('\nMENSAGES\n', mensages)
     for device in devices:
-        print('DEVICE', device)
         if(device in mensages):
             auxJson = {
                 "address": device,
@@ -53,14 +51,9 @@ def getDevices():
 @app.route("/devices", methods=['PUT'])
 def updateDataInterface():
     elemento = request.json
-    print('ELEMENTO RECEBIDO: ', elemento)
-    print('ME MANDARAM NO HTTP',elemento["name"])
     for device in devices:
-        print(device)
         if (str(device) == elemento["address"]):
             devices[device][1] = elemento["name"]
-            print('EU RECEBI NO FOR',devices[device][1])
-            print('ME MANDARAM NO HTTP',elemento["name"])
             return make_response(jsonify(
                 {
                     "address": device,
@@ -81,6 +74,13 @@ def comandsControlDevice():
             devices[device][0].send(str(elemento['comand']+'?'+IP).encode())
     return make_response(jsonify(elemento))
 
+@app.route('/devices/tv/control/app', methods=['PATCH'])
+def comandsControlDeviceTv():
+    elemento = request.json
+    for device in devices:
+        if(str(device) == elemento['address']):
+            devices[device][0].send(str(elemento['comand']+'?'+elemento['app']+'?'+IP).encode())
+    return make_response(jsonify(elemento))
 
 
 
@@ -89,29 +89,8 @@ def saveDevice(connection, address):
     #mandar informando o dispositivo para o CLIENT HTTP
     #receber esse valor e colocar na variavel deviceName
     deviceName = "nomeGenerico"
-    
-    devices[address[0]] = [connection, deviceName]
-    print("DISPOSITIVOS ",devices)
-
-
-'''
-Vai tentar mandar uma mensagem requisitando o status do dispositivo,
-se ele responder com desligado, vai pedir entao para ligar o dispositivo,
-caso nao consiga contado com o dispositivo, ele vai pegar e retirar o dispositivo
-do dicionario de dispositivos
-'''
-def conectionTest():
-    for device in devices:
-        try:
-            devices[device][0].send(str("109").encode())
-            try:
-                msgReturned =devices[device][0].recv(1024).decode()
-            except:
-                devices[device][0].send(str("105").encode())
-        except:
-            #remover do dicionario
-            devices.pop(device)
-            pass
+    hourConnection = datetime.now()
+    devices[address[0]] = [connection, deviceName, str(hourConnection)]
 
 def startServer():
     global serverTCP
@@ -128,7 +107,6 @@ def startServer():
 def acceptConnection():
     while True:
         connection, address = serverTCP.accept()
-        print(connection)
         saveDevice(connection, address)
 
 def receiveMensagesUDP():
@@ -154,7 +132,10 @@ def organizeInfosReceived(dicioMensage):
                 mensages[device] = (histTemp, dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4])
             else:
                 #chave o endereço ip do dispositivo = dado enviado, tipo do dispositivo, horario que enviou, estado do dispositivo
-                mensages[device] = (dicioMensage[device][0], dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4])
+                dataTv = eval(dicioMensage[device][0])
+                mensages[device] = (dataTv, dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4])
+            if(device in devices):
+                devices[device][2]=dicioMensage[device][3]
         elif (dicioMensage[device][1] == '101'):
             mensages.pop(device)
             devices.pop(device)
@@ -165,30 +146,17 @@ def sendMensageTCP(address, mensage):
 
 def init():
     startServer()
-    conectionTest()
-
-def receiveMensageTCP(address):
-    response = devices[address][0].recv(1024).decode()
-    #separa a resposta em uma lista, onde:
-        #primeiro[0] elemento é sempre o codigo de retorno
-        #segundo[1] elemento é o conteudo
-        #terceiro[2] elemento é quem pediu 
-    response = response.split("?")
-    #CHAMAR FUNÇÃO PARA ENVIAR VIA HTTP
 
 def deviceStatus():
     while True:
-        mensagesCopy = mensages.copy()
-        for mensage in mensagesCopy:
-            data = datetime.now() - datetime.strptime(mensages[mensage][2][0:19], '%Y-%m-%d %H:%M:%S')
-            if(int(data.total_seconds() / 80)>=1):
-                print("dispositivo deu problema ai viu")
-                try:
-                    devices[mensage][0].send(str("109").encode())
-                    resp = devices[mensage][0].recv(1024).decode()
-                except:
-                    devices.pop(mensage)
-                    mensages.pop(mensage)
+        devicesCopy = devices.copy()
+        for device in devicesCopy:
+            
+            data = datetime.now() - datetime.strptime(devices[device][2][0:19], '%Y-%m-%d %H:%M:%S')
+            if(int(data.total_seconds() / 10)>=1):
+                
+                devices.pop(device)
+                mensages.pop(device)
     
 
 

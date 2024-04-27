@@ -398,6 +398,127 @@ ul{
     text-shadow: 7px 2px 20px rgba(0, 0, 0, 0.466);
 }
 
+.logoInMainCardTV{
+    margin-top: 3vh;
+    margin-left: 0.5vw;
+}
+
+.mainInfoTVStateStandBy{
+    line-height: 0px;
+}
+
+.mainInfoTVStateStandBy h2{
+    position: absolute;
+    left: 13vw;
+    top:2vh;
+    color:white;
+    font-size: 2.7rem;
+    margin-left: 0vw;
+    margin-top: 5vh;
+    text-shadow: 7px 2px 20px rgba(0, 0, 0, 0.466);
+}
+
+.mainInfoTVStateStandBy h1{
+    position: absolute;
+    left: 13vw;
+    color:white;
+    font-size: 3.7rem;
+    margin-left: 0vw;
+    margin-top: 10vh;
+    text-shadow: 7px 2px 20px rgba(0, 0, 0, 0.466);
+}
+
+.mainInfoTV{
+    line-height: 0px;
+}
+
+.mainInfoTV h2{
+    position: absolute;
+    left: 13vw;
+    color:white;
+    font-size: 2.7rem;
+    margin-left: 0vw;
+    margin-top: 4vh;
+    text-shadow: 7px 2px 20px rgba(0, 0, 0, 0.466);
+}
+
+.mainInfoTV h1{
+    color:white;
+    font-size: 3rem;
+    margin-left: 8.3vw;
+    margin-top: 6vh;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    text-shadow: 7px 2px 20px rgba(0, 0, 0, 0.466);
+}
+
+.secondInfoTV h2{
+    position: absolute;
+    left: 13vw;
+    top: 10vh;
+    color:white;
+    font-size: 2.7rem;
+    margin-left: 0vw;
+    margin-top: 0vh;
+    text-shadow: 7px 2px 20px rgba(0, 0, 0, 0.466);
+}
+
+.secondInfoTV h1{
+    position: absolute;
+    left: 10vw;
+    top: 15vh;
+    color:white;
+    font-size: 3rem;
+    font-weight: 500;
+    margin-left: 8.3vw;
+    margin-top: 0vh;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    text-shadow: 7px 2px 20px rgba(0, 0, 0, 0.466);
+}
+
+.secondaryTextTV{
+    text-shadow: 7px 2px 20px rgba(0, 0, 0, 0.466);
+}
+
+.secondaryTextTV h3{
+    position: absolute;
+    left: 1vw;
+    top: 17vh;
+    font-weight: 700;
+    font-size: 3rem;
+}
+
+.secondaryTextTV h2{
+    color:white;
+    position: absolute;
+    left: 5vw;
+    top: 25vh;
+    font-weight: 700;
+    font-size: 3.5rem;
+}
+
+.valuesSecondaryTV{
+    text-shadow: 7px 2px 20px rgba(0, 0, 0, 0.466);
+}
+
+.valuesSecondaryTV h3{
+    position: absolute;
+    left: 10vw;
+    top: 17vh;
+    font-weight: 600;
+    font-size: 3rem;
+}
+
+.valuesSecondaryTV h2{
+    color: white;
+    position: absolute;
+    left: 14vw;
+    top: 26vh;
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+
 .secondaryText{
     position: absolute;
     top: 19vh;
@@ -479,6 +600,44 @@ ul{
     border: 3px solid white;
   }
 
+.controlSmartTVArea{
+    background-color: rgba(255, 255, 255, 0.329);
+    width: 32vw;
+    border-radius: 20px;
+    margin-left: 0.5vw;
+    height: 44vh;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
+}
+
+.appsArea{
+    background: url(../assets/backgroundDark.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 200%;
+    width: 20vw;
+    border-radius: 20px;
+    margin-left: 0.5vw;
+    padding-top: 10vh;
+    height: 30vh;
+    
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
+    padding: 0px;
+    display: inline-block;
+}
+
+.appsArea button{
+    background: none;
+}
+.appsArea button img{
+    
+    width: 100px;
+    margin: 10px;
+}
+.comandsSmartTv{
+    width: 5vw;
+    height: 10vh;
+    background: white;
+}
 .tempCardList{
     width: 30vw;
     height: 6vh;
@@ -518,6 +677,7 @@ ul{
     width: 32vw;
     border-radius: 20px;
     margin-left: 0.5vw;
+    margin-top:14vh;
     height: 55vh;
     overflow: auto;
     box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);

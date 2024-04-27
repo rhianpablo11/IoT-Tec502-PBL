@@ -207,7 +207,7 @@ CardBackground.propsTypes = {
 }
 
 CardBackground.defaultProps ={
-    name: "Rhian Pablo",
+    name: "Visitante",
     connection: true
 }
 export default CardBackground
