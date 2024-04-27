@@ -118,12 +118,9 @@ def setChannel(upOrDown):
         elif(upOrDown=='down'):
             channel-=1
 
-def setVolume(upOrDown):
+def setVolume(vol):
     global volume
-    if(volume <= 100 and upOrDown == 'down'):
-        volume -=1
-    elif(volume >= 0 and upOrDown == 'up'):
-        volume +=1
+    volume = vol
 
 def setApplicationOn(app):
     global application

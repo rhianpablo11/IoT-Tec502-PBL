@@ -614,29 +614,113 @@ ul{
     background-position: center;
     background-repeat: no-repeat;
     background-size: 200%;
-    width: 20vw;
+    width: 30vw;
     border-radius: 20px;
-    margin-left: 0.5vw;
-    padding-top: 10vh;
-    height: 30vh;
-    
+    margin-left: 0vw;
+    margin-top: 3vh;
+    padding-top: 1vh;
+    height: 15vh;
     box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.644);
     padding: 0px;
-    display: inline-block;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 .appsArea button{
     background: none;
+    margin: 0px;
+    padding: 0px;
 }
-.appsArea button img{
-    
+
+.appsButton{
     width: 100px;
+    height: 100px;
     margin: 10px;
+    margin-bottom: 0px;
+    padding: 5px;
+    padding-bottom: 0px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.411);
+}
+    
+
+.appsButton button img{
+    width: 90px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.411);
 }
 .comandsSmartTv{
-    width: 5vw;
-    height: 10vh;
+    
+    width: 95%;
+    margin: auto;
+    margin-top: 5vh;
+    background: url(../assets/backgroundDark.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 200%;
+    border-radius: 15px;
+    text-shadow: 7px 4px 20px rgba(0, 0, 0, 0.692);
+    justify-content: left;
+    justify-items: left;
+    align-items: start;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.411);
+}
+.comandVolume{
+    display: inline-flex;
+}
+
+.volume{
+    margin-left: 1rem;
+    width: 18vw;
+    -webkit-appearance: none;
+    height: 50px;
+    margin-top: 1.3rem;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.411);
+}
+
+
+.volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 45px;
+    background: #320169;
+    cursor: inherit;
+    border-radius: 10px;
+}
+
+.comandChannel{
+    display: inline-flex;
+    margin-left: 0px;
+}
+.comandChannel h1{
+    margin-right: 1rem;
+}
+.comandChannel button{
     background: white;
+    
+    width: 7rem;
+    height: 3rem;
+    margin-top: 1.7rem;
+    padding: 0px;
+
+}
+.comandChannel button h1{
+    font-size: 3rem;
+    padding: 0px;
+    color: black;
+    font-weight: 700;
+    margin: 0px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 .tempCardList{
     width: 30vw;

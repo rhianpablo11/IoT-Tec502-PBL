@@ -7,7 +7,7 @@ import { useState } from "react"
 function CardControlTV(props){
     const addressBase = 'http://192.168.0.115:8082'
     const [appSelect, setAppSelected] = useState(props.device.lastData.app)
-    
+    const [volume, setVolume] = useState(0)
     const handleClick = (event) => {
         event.stopPropagation()
     }
@@ -31,6 +31,52 @@ function CardControlTV(props){
         console.log(resposta)
     }
 
+    const changeVolume = async(event)=>{
+        setVolume(event.target.value)
+        console.log('VOLUME: ', volume)
+        const response = await fetch(addressBase+'/devices/tv/control/app', {
+            method:'PATCH',
+            headers: {
+                'Content-Type': 'application/json', // Se o conteúdo for JSON
+                // Outros cabeçalhos, se necessário
+              },
+              body: JSON.stringify({
+                'comand': '110',
+                'address': props.device.address.toString(),
+                'app': event.target.value
+              })
+              
+        })
+        const resposta = await response.json
+        console.log(resposta)
+    }
+
+    const changeChannel = async(event)=>{
+        console.log(event)
+        console.log('VOLUME: ', event.target.outerText)
+        let upOrDown = ''
+        if(event.target.outerText == '-'){
+            upOrDown = 'down'
+        } else{
+            upOrDown = 'up'
+        }
+        
+        const response = await fetch(addressBase+'/devices/tv/control/app', {
+            method:'PATCH',
+            headers: {
+                'Content-Type': 'application/json', // Se o conteúdo for JSON
+                // Outros cabeçalhos, se necessário
+              },
+              body: JSON.stringify({
+                'comand': '109',
+                'address': props.device.address.toString(),
+                'app': upOrDown
+              })
+              
+        })
+        const resposta = await response.json
+        console.log(resposta)
+    }
 
     if(props.device.deviceState == 'stand-by'){
         return(
@@ -44,22 +90,22 @@ function CardControlTV(props){
         return(
             <div onClick={handleClick} className={styles.controlSmartTVArea}>
                 <div className={styles.appsArea}>
-                    <div >
+                    <div className={styles.appsButton}>
                         <button onClick={(event) => chooseApp('Live Tv', event)}>
                             <img src={liveTvLogo}></img>
                         </button>
                     </div>
-                    <div >
+                    <div className={styles.appsButton} >
                         <button onClick={(event) => chooseApp('Amazon Prime', event)}>
                             <img src={amazonPrimeLogo}></img>
                         </button>
                     </div>
-                    <div>
+                    <div className={styles.appsButton}>
                         <button onClick={(event) => chooseApp('Youtube', event)}>
                             <img src={youtubeLogo}></img>
                         </button>
                     </div>
-                    <div >
+                    <div className={styles.appsButton} >
                         <button onClick={(event) => chooseApp('Netflix', event)}>
                             <img src={netflixLogo}></img>
                         </button>
@@ -70,8 +116,14 @@ function CardControlTV(props){
                     
                 </div>
                 <div className={styles.comandsSmartTv}>
-                    <div>
-                        <h1>Vol: {props.device.lastData.volume}</h1>
+                    <div className={styles.comandVolume}>
+                        <h1>Vol: {volume}</h1>
+                        <input className={styles.volume} onMouseUp={(event)=>changeVolume(event)}  type="range" min='0' max='100' />
+                    </div>
+                    <div className={styles.comandChannel}>
+                        <h1>Channel:</h1>
+                        <button onClick={(event) =>changeChannel(event)}><h1>-</h1></button>
+                        <button onClick={(event) =>changeChannel(event)}><h1>+</h1></button>
                     </div>
                 </div>
             </div>
