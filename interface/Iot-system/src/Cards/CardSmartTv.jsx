@@ -37,7 +37,7 @@ function CardSmartTv(props){
                     <img src={TvLogo}></img>
                 </div>
                 <div className={styles.mainInfoTVStateStandBy}>
-                    <h2>Device State: </h2>
+                    <h2>State: </h2>
                     <h1>{props.device.deviceState}</h1>
                 </div>
                 <div className={styles.valuesSecondary}> 

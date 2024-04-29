@@ -1,11 +1,12 @@
 import {useEffect, useState, createContext } from "react"
 import CardBackground from "./Cards/CardBackground"
 export const devicesDataContext = createContext()
+import { API_URL } from "./ipBroker/ipBroker"
 
 function AppGetData(){
     const [devicesData, setDevicesData] = useState([])
     const [serverState, setServerState] = useState(false)
-    const addressBase = 'http://192.168.0.115:8082'
+    const addressBase = API_URL
     useEffect(()=>{
         const requisitSearchDevices = async() => {
             try{

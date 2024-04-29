@@ -1,9 +1,10 @@
 version: '3.7'
 
 services:
-  client:
+  interface:
     build: 
       context: ./interface/Iot-system
+    container_name: interface
     networks:
       - iot-system-network
     environment:
@@ -13,18 +14,29 @@ services:
   server:
     build:
       context: ./server-broker
+    container_name: server
     stdin_open: true
     tty: true
-    hostname: broker
     networks:
       - iot-system-network
     ports:
       - "8080:8080"
       - "8081:8081/udp"
       - "8082:8082"
-  device:
+  sensor:
     build:
       context: ./devices
+    container_name: temperature_sensor
+    environment:
+      - IP_BROKER=172.22.0.2
+    stdin_open: true
+    tty: true
+    networks:
+      - iot-system-network
+  tv:
+    build:
+      context: ./devices
+    container_name: television
     environment:
       - IP_BROKER=192.168.0.115
     stdin_open: true

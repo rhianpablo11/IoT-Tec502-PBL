@@ -9,7 +9,7 @@ import CardSmartTv from "./CardSmartTv";
 
 function CardDevice(props){
     
-    const [clicked, setClicked] = useState(false)
+    const [clicked, setClicked] = useState(true)
     const handleClick = (event) => {
         event.stopPropagation()
     }

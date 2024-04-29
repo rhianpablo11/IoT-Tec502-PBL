@@ -1,1 +1,0 @@
-export const API_URL = process.env.IP_API_BROKER

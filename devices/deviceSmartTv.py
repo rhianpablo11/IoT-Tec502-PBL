@@ -23,18 +23,20 @@ global application
 channel = 3
 volume = 0
 application = 'Live Tv'
-#ipBroker= os.getenv('IP_BROKER')
-ipBroker='192.168.0.115'
+ipBroker= os.getenv('IP_BROKER')
+ipBroker='172.18.240.1'
 connected = False
 addresses = {'IP':ipBroker, 'UDP':8081, 'TCP':8080}
-#addressDisp = socket.gethostbyname(socket.getfqdn())
-addressDisp=ipBroker
+addressDisp = socket.gethostbyname(socket.gethostname())
+#addressDisp=ipBroker
+print('AAAAA',addressDisp)
 
 def conectTCP():
     global clientUDP
     global clientTCP
     global connected
     global state
+    global addressDisp
     count =0
     tempConnect = 0
     while True:
@@ -43,6 +45,9 @@ def conectTCP():
             clientTCP.connect((addresses["IP"], int(addresses["TCP"])))
             clientUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             clientUDP.connect((str(addresses["IP"]), int(addresses["UDP"])))
+            addr=clientTCP.getsockname()
+            print(addr)
+            print(socket.gethostbyname(socket.getfqdn()))
         except:
             print("Não foi possivel conectar nesse endereço/porta\nNova reconexão ocorrerá em: ", tempConnect, "segundos")
             print('Tentativa de reconexão: ', count)
@@ -130,7 +135,7 @@ def setApplicationOn(app):
     if(application !='Live Tv'):
         channel=0
     if(application == 'Live Tv'):
-        if(channel=='none'):
+        if(channel=='none' or channel == 0):
             channel=3
 
 
@@ -166,6 +171,7 @@ def sendTempConstantly():
                 
                 if(application=='none'):
                     application='Live Tv'
+                    channel= 1
             # Obtendo a data e hora atual
             timeSend = datetime.now()
             #print(clientTCP.getsockname())
@@ -175,7 +181,7 @@ def sendTempConstantly():
             
             #usar o comando 100 para poder indicar no broker que ta mandando aquela informação
             infoSend[addressDisp] = (str(packetInfo), "100", deviceType, str(timeSend)[0:19], state)
-            
+            print(infoSend)
             try:
                 clientUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
             except:
@@ -221,11 +227,8 @@ def menu():
                     setChannel('down')
             elif(choice == 5):
                 print(f'Volume atual: {volume}')
-                newVolume = input('Digite [+] para aumentar o volume, ou [-] para diminuir\nSua escolha: ')
-                if(newVolume =='+'):
-                    setVolume('up')
-                elif(newVolume == '-'):
-                    setVolume('down')
+                newVolume = input('Digite um novo valor de 0 a 100\nSua escolha: ')
+                setVolume(newVolume)
             elif(choice == 6):
                 print(f'App atual: {application}')
                 print(f'Lista de apps disponiveis:\n   1. Youtube\n   2. Live Tv\n   3. Amazon Prime Tv\n   4. Netflix')

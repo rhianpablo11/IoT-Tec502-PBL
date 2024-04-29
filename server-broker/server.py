@@ -15,8 +15,11 @@ msg=''
 global mensages
 mensages = {}
 
+#IP = socket.gethostbyname(socket.gethostname())
 IP = '0.0.0.0'
 print('IP SERVER: ',IP)
+print(socket.gethostname())
+print(socket.gethostbyname(socket.gethostname()))
 app = Flask(__name__)
 CORS(app)
 
@@ -89,8 +92,10 @@ def saveDevice(connection, address):
     #mandar informando o dispositivo para o CLIENT HTTP
     #receber esse valor e colocar na variavel deviceName
     deviceName = "nomeGenerico"
+    print(connection)
     hourConnection = datetime.now()
     devices[address[0]] = [connection, deviceName, str(hourConnection)]
+    print(devices)
 
 def startServer():
     global serverTCP
@@ -111,12 +116,14 @@ def acceptConnection():
 
 def receiveMensagesUDP():
     global msg
+    print(socket.gethostbyname(socket.getfqdn()))
     while True:
         msgUDP = serverUDP.recv(1024).decode()
         msg = eval(msgUDP)
         organizeInfosReceived(msg)
 
 def organizeInfosReceived(dicioMensage):
+    print(dicioMensage)
     for device in dicioMensage:
         #vai verificar se a mensagem é a de envio padrao
         if(dicioMensage[device][1] == '100'):

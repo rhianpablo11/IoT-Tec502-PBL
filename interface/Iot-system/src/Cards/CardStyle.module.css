@@ -283,11 +283,15 @@ ul{
 .cardControlBackground h1{
     color: white;
     margin-top: 1rem;
-    margin-bottom: 1rem ;
+    margin-bottom: 0rem ;
     font-weight: 600;
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+.cardControlBackground h2{
+    margin-top:0px;
 }
 
 .mainScreen{
@@ -399,10 +403,14 @@ ul{
 }
 
 .logoInMainCardTV{
-    margin-top: 3vh;
+    margin-top: 2.5vh;
     margin-left: 0.5vw;
-}
 
+}
+.logoInMainCardTV img{
+    width: 10rem;
+    height: 10rem;
+}
 .mainInfoTVStateStandBy{
     line-height: 0px;
 }
@@ -457,7 +465,7 @@ ul{
     left: 13vw;
     top: 10vh;
     color:white;
-    font-size: 2.7rem;
+    font-size: 2.5rem;
     margin-left: 0vw;
     margin-top: 0vh;
     text-shadow: 7px 2px 20px rgba(0, 0, 0, 0.466);
@@ -468,7 +476,7 @@ ul{
     left: 10vw;
     top: 15vh;
     color:white;
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 500;
     margin-left: 8.3vw;
     margin-top: 0vh;

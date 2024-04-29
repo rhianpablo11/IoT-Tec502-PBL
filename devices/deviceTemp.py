@@ -19,12 +19,15 @@ endThread = False
 state = 'stand-by'
 clientTCP = None
 clientUDP = None
+addressDisp =socket.gethostbyname(socket.gethostname())
+print(addressDisp)
 
 def conectTCP():
     global clientUDP
     global clientTCP
     global connected
     global state
+    global addressDisp
     count =0
     tempConnect = 0
     while True:
@@ -33,6 +36,7 @@ def conectTCP():
             clientTCP.connect((addresses["IP"], int(addresses["TCP"])))
             clientUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             clientUDP.connect((str(addresses["IP"]), int(addresses["UDP"])))
+            #addressDisp=clientTCP.getsockname()[1]
         except:
             print("Não foi possivel conectar nesse endereço/porta\nNova reconexão ocorrerá em: ", tempConnect, "segundos")
             print('Tentativa de reconexão: ', count)
@@ -136,6 +140,7 @@ def sendTempConstantly():
             timeSend = datetime.now()
             #print(clientTCP.getsockname())
             infoSend = {}
+
             print(addressDisp)
             #usar o comando 100 para poder indicar no broker que ta mandando aquela informação
             infoSend[addressDisp] = (str(temperature), "100", deviceType, str(timeSend)[0:19], state)
@@ -203,8 +208,8 @@ print('IP ENV', ipBroker)
 addresses = {'IP':ipBroker, 'UDP':8081, 'TCP':8080}
 print(addresses)
 conectTCP()
-#addressDisp = socket.gethostbyname(socket.getfqdn())
-addressDisp=ipBroker
+addressDisp = socket.gethostbyname(socket.getfqdn())
+
 
 
 receiverTCP = threading.Thread(target=receiveMensage, daemon=True).start()

@@ -9,17 +9,28 @@ function CardBackgroundControlDevices(props){
         setDevice(props.device)
         console.log(device)
     },)
-    return(
-        <>
-            <div className={styles.cardControlBackground}>
-                <h1>{device.name}</h1>
-                <CardControlDevices device={props.device}/>
-            </div>
-            
-        </>
-
-
-    );
+    if(device){
+        return(
+            <>
+                <div className={styles.cardControlBackground}>
+                    <h1>{device.name}</h1>
+                    <h2>Ip address: {device.address}</h2>
+                    <CardControlDevices device={props.device}/>
+                </div>
+            </>
+        );
+    }else{
+        return(
+            <>
+                <div className={styles.cardControlBackground}>
+                    <h1>{device.name}</h1>
+                    <h2>{device.address}</h2>
+                    <CardControlDevices device={props.device}/>
+                </div>
+            </>
+        );
+    }
+    
 }
 
 export default CardBackgroundControlDevices
