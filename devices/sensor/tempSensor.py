@@ -21,6 +21,15 @@ clientTCP = None
 clientUDP = None
 addressDisp =socket.gethostbyname(socket.gethostname())
 print(addressDisp)
+#ipBroker= os.getenv('IP_BROKER')
+ipBroker='192.168.0.115'
+connected = False
+print('IP ENV', ipBroker)
+addresses = {'IP':ipBroker, 'UDP':8081, 'TCP':8080}
+print(addresses)
+addressDisp = socket.gethostbyname(socket.getfqdn())
+
+
 
 def conectTCP():
     global clientUDP
@@ -36,6 +45,7 @@ def conectTCP():
             clientTCP.connect((addresses["IP"], int(addresses["TCP"])))
             clientUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             clientUDP.connect((str(addresses["IP"]), int(addresses["UDP"])))
+            clientTCP.settimeout(10)
             #addressDisp=clientTCP.getsockname()[1]
         except:
             print("Não foi possivel conectar nesse endereço/porta\nNova reconexão ocorrerá em: ", tempConnect, "segundos")
@@ -79,7 +89,7 @@ def receiveMensage():
     global connected
     while True and connected:
         try:
-            
+            msgPadrao =False
             msg = clientTCP.recv(1024).decode()     
             msg =msg.split("?")
             print(msg)
@@ -98,9 +108,12 @@ def receiveMensage():
                     restartDevice()
                 elif(msgTCP == '108'):
                     shutdownRoutine()
+                elif (msgTCP == '01'):
+                    msgPadrao =True
+                    pass
                 msgTCP = '400'
         except:
-            if(state!='desligado'):
+            if(state!='desligado' or not msgPadrao):
                 connected = False
                 clearTerminal()
                 print('Conexão com o servidor foi interrompida!')
@@ -201,17 +214,10 @@ def menu():
     
         
 
-#ipBroker= os.getenv('IP_BROKER')
-ipBroker='192.168.0.115'
-connected = False
-print('IP ENV', ipBroker)
-addresses = {'IP':ipBroker, 'UDP':8081, 'TCP':8080}
-print(addresses)
+
+
+
 conectTCP()
-addressDisp = socket.gethostbyname(socket.getfqdn())
-
-
-
 receiverTCP = threading.Thread(target=receiveMensage, daemon=True).start()
 sendTempFullTime = threading.Thread(target=sendTempConstantly, daemon=True).start()
 menu = threading.Thread(target=menu, daemon=True ).start()

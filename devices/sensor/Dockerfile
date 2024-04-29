@@ -11,4 +11,4 @@ WORKDIR /app
 
 
 # Comando para iniciar o aplicativo
-CMD ["python", "deviceTemp.py"]
+CMD ["python", "tempSensor.py"]

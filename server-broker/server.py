@@ -154,6 +154,7 @@ def sendMensageTCP(address, mensage):
 def init():
     startServer()
 
+#se der problema aqui, voltar a olhar pelas mensagens
 def deviceStatus():
     while True:
         devicesCopy = devices.copy()
@@ -161,25 +162,25 @@ def deviceStatus():
             
             data = datetime.now() - datetime.strptime(devices[device][2][0:19], '%Y-%m-%d %H:%M:%S')
             if(int(data.total_seconds() / 10)>=1):
-                
                 devices.pop(device)
-                mensages.pop(device)
-    
+                if(device in mensages):
+                    mensages.pop(device)
 
+#manda mensagem constantemente com um codigo para indicar que o server ta conectado na rede
+def sendTCPgetStatus():
+    while 1:
+        for device in devices:
+            sendMensageTCP(device, f'01?{IP}')
+        time.sleep(2)
 
 threading.Thread(target=app.run, args=(IP,8082), daemon=True).start()
 init()
 connecting = threading.Thread(target=acceptConnection, daemon=True).start()
 chuvaMensages = threading.Thread(target=receiveMensagesUDP, daemon=True).start()
 deviceIsOk = threading.Thread(target=deviceStatus, daemon=True).start()
-
+threading.Thread(target=sendTCPgetStatus, daemon=True).start()
 
 while 1:
-    choice= input("")
-    print(mensages)
-    if(choice == "1"):
-        serverTCP.close()
-        serverUDP.close()
-        break
+    pass
 
 

@@ -48,6 +48,7 @@ def conectTCP():
             addr=clientTCP.getsockname()
             print(addr)
             print(socket.gethostbyname(socket.getfqdn()))
+            clientTCP.settimeout(10)
         except:
             print("Não foi possivel conectar nesse endereço/porta\nNova reconexão ocorrerá em: ", tempConnect, "segundos")
             print('Tentativa de reconexão: ', count)
@@ -78,6 +79,7 @@ def receiveMensage():
     global connected
     while True and connected:
         try:
+            msgPadrao =False
             msg = clientTCP.recv(1024).decode()     
             msg =msg.split("?")
             print(msg)
@@ -86,22 +88,31 @@ def receiveMensage():
                 msgTCP = msg[0]
                 if(msgTCP == "105"):
                     state = 'ligado'
+                    msgPadrao =True
                 elif(msgTCP == "106"):
                     state = 'stand-by'
+                    msgPadrao =True
                 elif(msgTCP == "107"):
+                    msgPadrao =True
                     restartDevice()
                 elif(msgTCP == '108'):
+                    msgPadrao =True
                     shutdownRoutine()
                 elif(msgTCP=='109'): #mudar canal da tv
+                    msgPadrao =True
                     setChannel(msg[1])
                 elif(msgTCP=='110'): #mudar volume da tv
+                    msgPadrao =True
                     setVolume(msg[1])
-                    
                 elif(msgTCP =='111'): #mudar app da tv
+                    msgPadrao =True
                     setApplicationOn(msg[1])
+                elif (msgTCP == '01'):
+                    msgPadrao =True
+                    pass
                 msgTCP = '400'
         except:
-            if(state!='desligado'):
+            if(state!='desligado' or not msgPadrao):
                 connected = False
                 clearTerminal()
                 print('Conexão com o servidor foi interrompida!')
