@@ -3,9 +3,10 @@ import youtubeLogo from '../assets/youtubeLogo.svg'
 import netflixLogo from '../assets/netflixLogo.svg'
 import liveTvLogo from '../assets/liveTvLogo.svg'
 import amazonPrimeLogo from '../assets/primeVideoLogo.svg'
+import { API_URL } from "../ipBroker/ipBroker"
 import { useState } from "react"
 function CardControlTV(props){
-    const addressBase = 'http://192.168.0.115:8082'
+    const addressBase = API_URL
     const [appSelect, setAppSelected] = useState(props.device.lastData.app)
     const [volume, setVolume] = useState(0)
     const handleClick = (event) => {

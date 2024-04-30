@@ -22,7 +22,7 @@ function CardControlDevices(props){
         
         const newName = document.getElementById('UpdateNameDevice').value
         const response = await fetch(addressBase+'/devices', {
-            method:'PUT',
+            method:'PATCH',
             headers: {
                 'Content-Type': 'application/json', // Se o conteúdo for JSON
                 // Outros cabeçalhos, se necessário
@@ -76,8 +76,8 @@ function CardControlDevices(props){
     }
 
     const sendDeleteDevice = async()=>{
-        const response = await fetch(addressBase+'/devices/control', {
-            method:'PATCH',
+        const response = await fetch(addressBase+'/devices/delete', {
+            method:'DELETE',
             headers: {
                 'Content-Type': 'application/json', // Se o conteúdo for JSON
                 // Outros cabeçalhos, se necessário
