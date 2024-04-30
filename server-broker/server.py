@@ -14,20 +14,19 @@ devices = {}
 msg=''
 global mensages
 mensages = {}
-
+namePC = socket.gethostname()
+ipPC =socket.gethostbyname(socket.gethostname())
 #IP = socket.gethostbyname(socket.gethostname())
 IP = '0.0.0.0'
 print('IP SERVER: ',IP)
-print(socket.gethostname())
-print(socket.gethostbyname(socket.gethostname()))
+print('NOME DO PC: ', namePC)
+print('IP DO PC: ', ipPC)
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/devices', methods=['GET'])
 def getDevices():
     devicesList = []
-    print("\nDEVICES\n",devices)
-    print('\nMENSAGES\n', mensages)
     for device in devices:
         if(device in mensages):
             auxJson = {
@@ -51,7 +50,7 @@ def getDevices():
     return make_response(jsonify(devicesList))
 
 
-@app.route("/devices", methods=['PUT'])
+@app.route("/devices", methods=['PATCH'])
 def updateDataInterface():
     elemento = request.json
     for device in devices:
@@ -77,6 +76,15 @@ def comandsControlDevice():
             devices[device][0].send(str(elemento['comand']+'?'+IP).encode())
     return make_response(jsonify(elemento))
 
+@app.route('/devices/delete', methods=['DELETE'])
+def comandDeleteDevice():
+    elemento = request.json
+    for device in devices:
+        if(str(device) == elemento['address']):
+            devices[device][0].send(str(elemento['comand']+'?'+IP).encode())
+    return make_response(jsonify(elemento))
+
+
 @app.route('/devices/tv/control/app', methods=['PATCH'])
 def comandsControlDeviceTv():
     elemento = request.json
@@ -92,10 +100,8 @@ def saveDevice(connection, address):
     #mandar informando o dispositivo para o CLIENT HTTP
     #receber esse valor e colocar na variavel deviceName
     deviceName = "nomeGenerico"
-    print(connection)
     hourConnection = datetime.now()
     devices[address[0]] = [connection, deviceName, str(hourConnection)]
-    print(devices)
 
 def startServer():
     global serverTCP
@@ -116,14 +122,12 @@ def acceptConnection():
 
 def receiveMensagesUDP():
     global msg
-    print(socket.gethostbyname(socket.getfqdn()))
     while True:
         msgUDP = serverUDP.recv(1024).decode()
         msg = eval(msgUDP)
         organizeInfosReceived(msg)
 
 def organizeInfosReceived(dicioMensage):
-    print(dicioMensage)
     for device in dicioMensage:
         #vai verificar se a mensagem é a de envio padrao
         if(dicioMensage[device][1] == '100'):
@@ -160,8 +164,11 @@ def deviceStatus():
         devicesCopy = devices.copy()
         for device in devicesCopy:
             
-            data = datetime.now() - datetime.strptime(devices[device][2][0:19], '%Y-%m-%d %H:%M:%S')
+            data = datetime.now() -datetime.strptime(devices[device][2][0:19], '%Y-%m-%d %H:%M:%S')
+            #print(f'\n{devices[device][2][0:19]}\nDEVICE: {device} TEMPO: {data.total_seconds()}\n')
+            time.sleep(1)
             if(int(data.total_seconds() / 10)>=1):
+               
                 devices.pop(device)
                 if(device in mensages):
                     mensages.pop(device)
@@ -169,9 +176,19 @@ def deviceStatus():
 #manda mensagem constantemente com um codigo para indicar que o server ta conectado na rede
 def sendTCPgetStatus():
     while 1:
-        for device in devices:
+        devicesCopy = devices.copy()
+        for device in devicesCopy:
             sendMensageTCP(device, f'01?{IP}')
         time.sleep(2)
+
+def clearTerminal():
+    if os.name == 'posix':
+        os.system('clear')
+    elif os.name == 'nt':
+        os.system('cls')
+    else:
+        print("Limpeza de terminal não suportada neste sistema.")
+
 
 threading.Thread(target=app.run, args=(IP,8082), daemon=True).start()
 init()
@@ -181,6 +198,12 @@ deviceIsOk = threading.Thread(target=deviceStatus, daemon=True).start()
 threading.Thread(target=sendTCPgetStatus, daemon=True).start()
 
 while 1:
+    print('IP SERVER: ',IP)
+    print('NOME DO PC: ', namePC)
+    print('IP DO PC: ', ipPC)
+    print('DEVICES: ', devices)
+    time.sleep(0.3)
+    clearTerminal()
     pass
 
 
