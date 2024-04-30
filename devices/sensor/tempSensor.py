@@ -20,13 +20,12 @@ state = 'stand-by'
 clientTCP = None
 clientUDP = None
 addressDisp =socket.gethostbyname(socket.gethostname())
-print(addressDisp)
+
 #ipBroker= os.getenv('IP_BROKER')
-ipBroker='192.168.0.115'
+ipBroker='172.16.103.10'
 connected = False
-print('IP ENV', ipBroker)
+
 addresses = {'IP':ipBroker, 'UDP':8081, 'TCP':8080}
-print(addresses)
 addressDisp = socket.gethostbyname(socket.getfqdn())
 
 
@@ -92,22 +91,25 @@ def receiveMensage():
             msgPadrao =False
             msg = clientTCP.recv(1024).decode()     
             msg =msg.split("?")
-            print(msg)
+
             if isinstance(msg, list):
                 addressRequisited = msg[1]
                 msgTCP = msg[0]
                 if(msgTCP == "105"):
                     state = 'ligado'
-                    print('ESTADO ATUAL',state)
+                    msgPadrao =True
                     #sendMensageTCP(str(state))
                 #manda desligar o dispositivo
                 elif(msgTCP == "106"):
                     state = 'stand-by'
+                    msgPadrao =True
                     #sendMensageTCP(str(state))
                 elif(msgTCP == "107"):
                     restartDevice()
+                    msgPadrao =True
                 elif(msgTCP == '108'):
                     shutdownRoutine()
+                    msgPadrao =True
                 elif (msgTCP == '01'):
                     msgPadrao =True
                     pass
@@ -127,10 +129,10 @@ def receiveMensage():
 def restartDevice():
     global state
     state = 'reiniciando'
-    print(state)
+
     time.sleep(1)
     state=('ligado')
-    print(state)
+
 
 def clearTerminal():
     if os.name == 'posix':
@@ -154,10 +156,8 @@ def sendTempConstantly():
             #print(clientTCP.getsockname())
             infoSend = {}
 
-            print(addressDisp)
             #usar o comando 100 para poder indicar no broker que ta mandando aquela informação
             infoSend[addressDisp] = (str(temperature), "100", deviceType, str(timeSend)[0:19], state)
-            print(infoSend)
             try:
                 clientUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
             except:
