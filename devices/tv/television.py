@@ -20,16 +20,18 @@ msgTCP = ""
 global channel
 global volume
 global application
+global name
+name = 'televisao'
 channel = 3
 volume = 0
 application = 'Live Tv'
-ipBroker= os.getenv('IP_BROKER')
-ipBroker='172.18.240.1'
+#ipBroker= os.getenv('IP_BROKER')
+ipBroker='192.168.0.115'
 connected = False
 addresses = {'IP':ipBroker, 'UDP':8081, 'TCP':8080}
 addressDisp = socket.gethostbyname(socket.gethostname())
-#addressDisp=ipBroker
-print('AAAAA',addressDisp)
+
+
 
 def conectTCP():
     global clientUDP
@@ -46,8 +48,6 @@ def conectTCP():
             clientUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             clientUDP.connect((str(addresses["IP"]), int(addresses["UDP"])))
             addr=clientTCP.getsockname()
-            print(addr)
-            print(socket.gethostbyname(socket.getfqdn()))
             clientTCP.settimeout(10)
         except:
             print("Não foi possivel conectar nesse endereço/porta\nNova reconexão ocorrerá em: ", tempConnect, "segundos")
@@ -77,16 +77,19 @@ def receiveMensage():
     global msgTCP
     global state
     global connected
+    global name
     while True and connected:
         try:
             msgPadrao =False
             msg = clientTCP.recv(1024).decode()     
             msg =msg.split("?")
-            print(msg)
             if isinstance(msg, list):
                 addressRequisited = msg[1]
                 msgTCP = msg[0]
-                if(msgTCP == "105"):
+                if(msgTCP == '104'):
+                    name = msg[1]
+                    msgPadrao =True
+                elif(msgTCP == "105"):
                     state = 'ligado'
                     msgPadrao =True
                 elif(msgTCP == "106"):
@@ -107,6 +110,7 @@ def receiveMensage():
                 elif(msgTCP =='111'): #mudar app da tv
                     msgPadrao =True
                     setApplicationOn(msg[1])
+                
                 elif (msgTCP == '01'):
                     msgPadrao =True
                     pass
@@ -142,7 +146,6 @@ def setApplicationOn(app):
     global application
     global channel
     application = app
-    print(application)
     if(application !='Live Tv'):
         channel=0
     if(application == 'Live Tv'):
@@ -161,10 +164,8 @@ def clearTerminal():
 def restartDevice():
     global state
     state = 'reiniciando'
-    print(state)
     time.sleep(1)
     state=('ligado')
-    print(state)
 
 def sendTempConstantly():
     global state
@@ -185,14 +186,13 @@ def sendTempConstantly():
                     channel= 1
             # Obtendo a data e hora atual
             timeSend = datetime.now()
-            #print(clientTCP.getsockname())
+
             infoSend = {}
             packetInfo = {}
             packetInfo = {'channel': channel, 'app': application, 'volume': volume}
             
             #usar o comando 100 para poder indicar no broker que ta mandando aquela informação
-            infoSend[addressDisp] = (str(packetInfo), "100", deviceType, str(timeSend)[0:19], state)
-            print(infoSend)
+            infoSend[addressDisp] = (str(packetInfo), "100", deviceType, str(timeSend)[0:19], state, name)
             try:
                 clientUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
             except:
@@ -209,7 +209,7 @@ def shutdownRoutine():
     packetInfo = {'channel': channel, 'app': application, 'volume': volume}
     state = 'desligado'
     connected = False
-    infoSend[addressDisp] = (str(packetInfo), "101", deviceType, str(timeSend)[0:19], state)
+    infoSend[addressDisp] = (str(packetInfo), "101", deviceType, str(timeSend)[0:19], state, name)
     clientUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
     clientTCP.close()
     clientUDP.close()

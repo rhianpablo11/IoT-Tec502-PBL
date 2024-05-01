@@ -14,6 +14,8 @@ state = 'desligado'
 msgTCP = ""
 deviceType = 'temp sensor'
 global addressRequisited
+global name
+name = "sensor de temperatura"
 addressRequisited = ''
 endThread = False
 state = 'stand-by'
@@ -86,6 +88,7 @@ def receiveMensage():
     global msgTCP
     global state
     global connected
+    global name
     while True and connected:
         try:
             msgPadrao =False
@@ -95,7 +98,10 @@ def receiveMensage():
             if isinstance(msg, list):
                 addressRequisited = msg[1]
                 msgTCP = msg[0]
-                if(msgTCP == "105"):
+                if(msgTCP == '104'):
+                    name = msg[1]
+                    msgPadrao =True
+                elif(msgTCP == "105"):
                     state = 'ligado'
                     msgPadrao =True
                     #sendMensageTCP(str(state))
@@ -157,7 +163,7 @@ def sendTempConstantly():
             infoSend = {}
 
             #usar o comando 100 para poder indicar no broker que ta mandando aquela informação
-            infoSend[addressDisp] = (str(temperature), "100", deviceType, str(timeSend)[0:19], state)
+            infoSend[addressDisp] = (str(temperature), "100", deviceType, str(timeSend)[0:19], state, name)
             try:
                 clientUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
             except:
@@ -174,7 +180,7 @@ def shutdownRoutine():
     infoSend = {}
     state = 'desligado'
     connected = False
-    infoSend[addressDisp] = (str(temp), "101", deviceType, str(timeSend)[0:19], state)
+    infoSend[addressDisp] = (str(temp), "101", deviceType, str(timeSend)[0:19], state, name)
     clientUDP.sendto(str(infoSend).encode(), (addresses["IP"], int(addresses["UDP"])))
     clientTCP.close()
     clientUDP.close()

@@ -28,10 +28,11 @@ CORS(app)
 def getDevices():
     devicesList = []
     for device in devices:
+        
         if(device in mensages):
             auxJson = {
                 "address": device,
-                "name": devices[device][1],
+                "name": mensages[device][4],
                 "lastData": mensages[device][0],
                 "type": mensages[device][1],
                 "timeLastData":mensages[device][2],
@@ -40,7 +41,7 @@ def getDevices():
         else:
             auxJson = {
                 "address": device,
-                "name": devices[device][1],
+                "name": 'undefined',
                 "lastData": "undefined",
                 "type": "undefined",
                 "timeLastData": "undefined",
@@ -56,10 +57,11 @@ def updateDataInterface():
     for device in devices:
         if (str(device) == elemento["address"]):
             devices[device][1] = elemento["name"]
+            sendMensageTCP(device, str("104"+"?"+elemento["name"]+"?"+IP))
             return make_response(jsonify(
                 {
                     "address": device,
-                    "name": devices[device][1],
+                    "name": mensages[device][4],
                     "lastData": mensages[device][0],
                     "type": mensages[device][1],
                     "timeLastData":mensages[device][2],
@@ -139,12 +141,12 @@ def organizeInfosReceived(dicioMensage):
                 if(len(histTemp)>10):
                     histTemp.pop(-1)
                 histTemp.insert(0, (dicioMensage[device][0], dicioMensage[device][3]))
-                #chave o endereço ip do dispositivo = dado enviado, tipo do dispositivo, horario que enviou, estado do dispositivo
-                mensages[device] = (histTemp, dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4])
+                #chave o endereço ip do dispositivo = dado enviado, tipo do dispositivo, horario que enviou, estado do dispositivo, nome do dispositivo
+                mensages[device] = (histTemp, dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4], dicioMensage[device][5])
             else:
                 #chave o endereço ip do dispositivo = dado enviado, tipo do dispositivo, horario que enviou, estado do dispositivo
                 dataTv = eval(dicioMensage[device][0])
-                mensages[device] = (dataTv, dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4])
+                mensages[device] = (dataTv, dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4], dicioMensage[device][5])
             if(device in devices):
                 devices[device][2]=dicioMensage[device][3]
         elif (dicioMensage[device][1] == '101'):
@@ -201,9 +203,14 @@ while 1:
     print('IP SERVER: ',IP)
     print('NOME DO PC: ', namePC)
     print('IP DO PC: ', ipPC)
-    print('DEVICES: ', devices)
+    print('DEVICES: ')
+    deviceCopy = devices.copy()
+    for device in deviceCopy:
+        if(device in mensages):
+            print(f'=====> NAME: {mensages[device][4]}\n=====> ADDRESS: {device}\n=====> HOUR LAST DATA: {devices[device][2][11:19]}')
     time.sleep(0.3)
-    clearTerminal()
+
+    #clearTerminal()
     pass
 
 
