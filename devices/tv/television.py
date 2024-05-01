@@ -115,7 +115,7 @@ def receiveMensage():
                     msgPadrao =True
                     setApplicationOn(msg[1])
                 
-                elif (msgTCP == '01'):
+                elif (msgTCP == '103'):
                     msgPadrao =True
                     pass
                 msgTCP = '400'

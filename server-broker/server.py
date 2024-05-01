@@ -44,7 +44,7 @@ def getDevices():
                 "name": 'undefined',
                 "lastData": "undefined",
                 "type": "undefined",
-                "timeLastData": "undefined",
+                "timeLastData": devices[device][1],
                 "deviceState": "desligado"
             }
         devicesList.append(auxJson)
@@ -143,7 +143,7 @@ def organizeInfosReceived(dicioMensage):
                 #chave o endereço ip do dispositivo = dado enviado, tipo do dispositivo, horario que enviou, estado do dispositivo, nome do dispositivo
                 mensages[device] = (histTemp, dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4], dicioMensage[device][5])
             else:
-                #chave o endereço ip do dispositivo = dado enviado, tipo do dispositivo, horario que enviou, estado do dispositivo
+                #chave o endereço ip do dispositivo = dado enviado, tipo do dispositivo, horario que enviou, estado do dispositivo, nome do dispositivo
                 dataTv = eval(dicioMensage[device][0])
                 mensages[device] = (dataTv, dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4], dicioMensage[device][5])
             if(device in devices):
@@ -179,7 +179,7 @@ def sendTCPgetStatus():
     while 1:
         devicesCopy = devices.copy()
         for device in devicesCopy:
-            sendMensageTCP(device, f'01?{IP}')
+            sendMensageTCP(device, f'103?{IP}')
         time.sleep(2)
 
 def clearTerminal():

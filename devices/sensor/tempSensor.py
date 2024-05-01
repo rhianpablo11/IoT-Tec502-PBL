@@ -119,7 +119,7 @@ def receiveMensage():
                 elif(msgTCP == '108'):
                     shutdownRoutine()
                     msgPadrao =True
-                elif (msgTCP == '01'):
+                elif (msgTCP == '103'):
                     msgPadrao =True
                     pass
                 msgTCP = '400'
