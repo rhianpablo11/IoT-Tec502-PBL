@@ -101,9 +101,8 @@ def comandsControlDeviceTv():
 def saveDevice(connection, address):
     #mandar informando o dispositivo para o CLIENT HTTP
     #receber esse valor e colocar na variavel deviceName
-    deviceName = "nomeGenerico"
     hourConnection = datetime.now()
-    devices[address[0]] = [connection, deviceName, str(hourConnection)]
+    devices[address[0]] = [connection, str(hourConnection)]
 
 def startServer():
     global serverTCP
@@ -148,7 +147,7 @@ def organizeInfosReceived(dicioMensage):
                 dataTv = eval(dicioMensage[device][0])
                 mensages[device] = (dataTv, dicioMensage[device][2], dicioMensage[device][3], dicioMensage[device][4], dicioMensage[device][5])
             if(device in devices):
-                devices[device][2]=dicioMensage[device][3]
+                devices[device][1]=dicioMensage[device][3]
         elif (dicioMensage[device][1] == '101'):
             mensages.pop(device)
             devices.pop(device)
@@ -166,9 +165,9 @@ def deviceStatus():
         devicesCopy = devices.copy()
         for device in devicesCopy:
             
-            data = datetime.now() -datetime.strptime(devices[device][2][0:19], '%Y-%m-%d %H:%M:%S')
+            data = datetime.now() -datetime.strptime(devices[device][1][0:19], '%Y-%m-%d %H:%M:%S')
             #print(f'\n{devices[device][2][0:19]}\nDEVICE: {device} TEMPO: {data.total_seconds()}\n')
-            time.sleep(1)
+            
             if(int(data.total_seconds() / 10)>=1):
                
                 devices.pop(device)
@@ -203,14 +202,15 @@ while 1:
     print('IP SERVER: ',IP)
     print('NOME DO PC: ', namePC)
     print('IP DO PC: ', ipPC)
-    print('DEVICES: ')
+    print('\n             DEVICES: ')
     deviceCopy = devices.copy()
     for device in deviceCopy:
         if(device in mensages):
-            print(f'=====> NAME: {mensages[device][4]}\n=====> ADDRESS: {device}\n=====> HOUR LAST DATA: {devices[device][2][11:19]}')
+            print('==================================')
+            print(f'=====> NAME: {mensages[device][4]}\n=====> ADDRESS: {device}\n=====> HOUR LAST DATA: {devices[device][1][11:19]}')
+            print('==================================')
     time.sleep(0.3)
-
-    #clearTerminal()
+    clearTerminal()
     pass
 
 

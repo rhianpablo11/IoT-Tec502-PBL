@@ -24,7 +24,7 @@ clientUDP = None
 addressDisp =socket.gethostbyname(socket.gethostname())
 
 #ipBroker= os.getenv('IP_BROKER')
-ipBroker='172.16.103.10'
+ipBroker='192.168.0.115'
 connected = False
 
 addresses = {'IP':ipBroker, 'UDP':8081, 'TCP':8080}
@@ -49,6 +49,7 @@ def conectTCP():
             clientTCP.settimeout(10)
             #addressDisp=clientTCP.getsockname()[1]
         except:
+            clearTerminal()
             print("Não foi possivel conectar nesse endereço/porta\nNova reconexão ocorrerá em: ", tempConnect, "segundos")
             print('Tentativa de reconexão: ', count)
             count +=1
@@ -56,9 +57,11 @@ def conectTCP():
             state ='stand-by'
             time.sleep(tempConnect)
             tempConnect += 3
-            clearTerminal()
-        else:
             
+        else:
+            clearTerminal()
+            print("Conexão estabelecida/restabelecida")
+            print('Menu\n1. Desligar\n2. Ligar\n3. Stand-by\n4. Mudar temperatura\n5. Modo Random Temp\nDigite a sua escolha: ')
             connected= True
             count=0
             break

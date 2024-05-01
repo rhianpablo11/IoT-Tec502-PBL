@@ -50,6 +50,7 @@ def conectTCP():
             addr=clientTCP.getsockname()
             clientTCP.settimeout(10)
         except:
+            clearTerminal()
             print("Não foi possivel conectar nesse endereço/porta\nNova reconexão ocorrerá em: ", tempConnect, "segundos")
             print('Tentativa de reconexão: ', count)
             count +=1
@@ -57,8 +58,11 @@ def conectTCP():
             state ='stand-by'
             time.sleep(tempConnect)
             tempConnect += 3
-            clearTerminal()
+            
         else:
+            clearTerminal()
+            print("Conexão estabelecida/restabelecida")
+            print('Menu\n1. Desligar\n2. Ligar\n3. Stand-by\n4. Trocar Canal\n5. Mudar Volume\n6. Trocar App\nDigite a sua escolha: ')
             connected= True
             count=0
             break
