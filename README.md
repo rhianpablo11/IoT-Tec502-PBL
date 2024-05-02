@@ -3,9 +3,7 @@
 ## Como executar
 A primeira etapa diz respeito a clonar o repositorio para o seu dispositivo, o que pode ser feito usando o comando no terminal:
 
-``
-git clone https://github.com/rhianpablo11/IoT-Tec502-PBL.git
-``
+    git clone https://github.com/rhianpablo11/IoT-Tec502-PBL.git
 
 ## Estrutura do projeto
 A estrutura utilizada na construção do projeto se divide em 3 elementos:
@@ -15,50 +13,57 @@ A estrutura utilizada na construção do projeto se divide em 3 elementos:
 - ``` Dispositivo:``` Este simula um dispositivo real, oferecendo funções simuladas via software. Ele realiza o envio constante de dados sobre o seu estado atual
   
 ## Servidor Broker
-    Falar sobre a parte do TCP e a parte do HTTP
-    ele tem uso com aquela parada dos comandos
 O servidor Broker é a parte central de todo esse projeto, sendo responsavel por estabelecer comunicação com os dispositivos, sensor de temperatura e Smart TV, assim como com a interface. Para tal ação ele necessita uma conexão, TCP e UDP, com cada dispositivo para que possa enviar comandos e receber os dados do dispositivo. O envio e recebimento de dados com a interface ocorre usando o protocolo HTTP, não exigindo o firmamento de uma conexão com o servidor.
-Ainda deve-se pontuar o gerenciamento dos dados recebidos, para manter sempre os ultimos dados recebidos salvos, e estruturados. Essa estrutura padrão é um dos pilares que permite o funcionamento em conjunto dos 3 dispositivos. Segue a estrutura padrão utilizada:
+Ainda deve-se pontuar o [gerenciamento dos dados recebidos](https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/server-broker/server.py#L131), para manter sempre os ultimos dados recebidos salvos, e estruturados. Essa estrutura padrão é um dos pilares que permite o funcionamento em conjunto dos 3 dispositivos. Segue a estrutura padrão utilizada:
 - Address: É a chave do dicionario de mensagens. Contém o endereço IP do dispositivo
-  - LastData: contém o ultimo dado recebido pelo dispositivo
-  - Type: contém o tipo do dispositivo
-  - HourLastData: contém o horario em que recebeu o ultimo dado
-  - DeviceStatus: contém o estado do dispositivo, se está ligado por exemplo
-  - Name: contém o nome do dispositivo 
+- LastData: contém o ultimo dado recebido pelo dispositivo
+- Type: contém o tipo do dispositivo
+- HourLastData: contém o horario em que recebeu o ultimo dado
+- DeviceStatus: contém o estado do dispositivo, se está ligado por exemplo
+- Name: contém o nome do dispositivo 
+
+### Funcionamento
+O servidor broker desenvolvido na linguagem python, tem o papel de realizar multiplas ações ao mesmo tempo. Em decorrencia de precisar lidar com multiplos dispositivos conectados, recebendo requisições HTTP, e dados via UDP, além do processamento dessas informações e envio de dados seja para o dispositivo, seja para a interface. Afim de permitir dinamismo na operação o uso de threads é essencial para o funcionamento.
 
 ## Dispositivo
 Para realizar a simulação de um dispositivo de IoT, Internet das Coisas, houve a necessidade de criar um programa que realizasse as ações de um.
 Os dispotivos haviam uma restrição na sua criação, em que eles só devem ser capazes de realizar comunicação via TCP ou UDP, o que aumentou a necessidade do servidor, já que este faz uma especie de tradução para receber comandos da interface e enviar para o dispositivo.<br>
-Com o proposito de padronizar a comunicação para melhor efetividade e escalabilidade, foi decidido usar comandos nas trocas de mensagens. A escolha, permite que sejam enviados um pacote menor de dados pela rede, além de que este simplifica o pedir de ações. Na tabela [Possíveis comandos dos dispositivos](#possíveis-comandos-dos-dispositivos-comandos-que-funcionam-apenas-na-smarttv) é possível ver os comandos e o que cada um realiza.
+Com o proposito de padronizar a comunicação para melhor efetividade e escalabilidade, foi decidido usar comandos nas trocas de mensagens. A escolha, permite que sejam enviados um pacote menor de dados pela rede, além de que este simplifica o pedir de ações. Na tabela [Possíveis comandos dos dispositivos](#possíveis-comandos-dos-dispositivos) é possível ver os comandos e o que cada um realiza.
 <div align="center">
-	
-| Comandos| Ações dentro do dispositivo|
-:----------| :-------------|
-| 103           | Indica para o dispositivo que o servidor ainda esta ativo na rede. Essa mensagem, ou qualquer um dos outros codigos tem que chegar no intervalo de 10 segundos|
-| 104           | Realiza a alteração no nome do dispositivo|
-| 105             | Realiza a alteração de estado do dispositivo, <b>ligando-o</b>
-| 106 | Realiza a altaração de estado do dispositivo, <b>desligando-o</b>   |
-| 107            | Pede ao dispositivo para ele se auto reiniciar, trocando de estado para desligado, e após para ligado|
-| 108 | Pede para o dispositivo entrar na rotina de "shutdown", dessa forma ele proprio se auto desliga, e envia um ultimo comando para que o servidor apague ele dos dados salvos |
-| 109*            | Indica que uma troca de canal esta sendo requisitada     |
-| 110*           | Indica que uma troca de volume atual esta sendo requisitada    |
-| 111*           | Indica que uma troca de applicativo esta sendo sendo requisitada    |
-#### Possíveis comandos dos dispositivos<p>* comandos que funcionam apenas na SmartTv</p>
+
+#### Possíveis comandos dos dispositivos
+
+| Comandos | Ações dentro do dispositivo                                                                                                                                                |
+| :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 103      | Indica para o dispositivo que o servidor ainda esta ativo na rede. Essa mensagem, ou qualquer um dos outros codigos tem que chegar no intervalo de 10 segundos             |
+| 104      | Realiza a alteração no nome do dispositivo                                                                                                                                 |
+| 105      | Realiza a alteração de estado do dispositivo, <b>ligando-o</b>                                                                                                             |
+| 106      | Realiza a altaração de estado do dispositivo, <b>desligando-o</b>                                                                                                          |
+| 107      | Pede ao dispositivo para ele se auto reiniciar, trocando de estado para desligado, e após para ligado                                                                      |
+| 108      | Pede para o dispositivo entrar na rotina de "shutdown", dessa forma ele proprio se auto desliga, e envia um ultimo comando para que o servidor apague ele dos dados salvos |
+| 109*     | Indica que uma troca de canal esta sendo requisitada                                                                                                                       |
+| 110*     | Indica que uma troca de volume atual esta sendo requisitada                                                                                                                |
+| 111*     | Indica que uma troca de applicativo esta sendo sendo requisitada                                                                                                           |
+
+<p>* comandos que funcionam apenas na SmartTv</p>
 </div>
 Tais dispositivos precisam estar aptos para realizar operações em segundo plano, como por exemplo escutar o recebimento de novos comandos e realizar a operação desejada. Para que isso fosse possível, o uso de Threads foi essencial, tendo em vista que ao criar um thread para uma funcionalidade, ela opera em paralelo as outras. Nesse projeto, os dispositivos contam com 3 Threads adicionais a Thread principal.
 
-- Thread Principal:
-  - Mantém o programa ativo - while true
-- Thread "receiverTCP":
-  - Fica ouvindo a chega de novos comandos vindos do servidor, por meio de conexão TCP
-- Thread "sendDataFullTime":
+- [Thread Principal]():
+  - Mantém o programa ativo por meio de um *while True* e a verificação de estado do dispositivo. Assim que o estado é alterado para desligado, o programa se encerra por sair do loop.
+- [Thread "receiverTCP"]():
+  - Fica ouvindo a chega de novos comandos vindos do servidor, por meio de conexão TCP. Com o comando recebido ela verifica qual o significado dele para poder executar a determinada operação.
+  - Verifica se o servidor ainda se mantem ativo, já que se ele passar mais de 10 segundos sem enviar uma mensagem via socket TCP, é acionado um alerta de desconexão, todos threads são pausados, e é iniciada a [rotina de reconexão]().
+- [Thread "sendDataFullTime"]():
   - Realiza o envio de dados continuamente para o servidor, por meio de conexão UDP
-- Thread "menu":
+- [Thread "menu"]():
   - Permite que a função que apresenta no terminal as funções de controle, e recebe a opção a ser operada, escolhida pelo usuario, fique em execução. Isso simula um comando fisico no dispositivo
 
-Os dispositivos, conforme requisito, podem ser controlados via terminal usando linhas de comando. Esta operação simula o uso do dispositivo fisicamente, a exemplo apertar o botão liga e desliga. Sendo assim, há 2 formas de controle: via terminal, simulando o dispositivo fisico, ou pela interface, neste caso o comando trafega pela rede ate chegar ao dispositivo. 
+Para o funcionamento continuo cada uma dessas threads, executa uma função em que as operações internas estão envolvidas por um *[while True]()*, para que permaneçam executando, saindo apenas quando o programa finalizar. Internamente ao loop, é posto um [*if*, em que a condição é estar conectado com o servidor](), a partir do momento em que a conexão é cortada, o script interno ao *if* deixa de ser realizado.
 
-O controle desdes dispositivos pela interface possui 4 funcionalidades genericas, conforme descrito na tabela [Possíveis comandos dos dispositivos](#possíveis-comandos-dos-dispositivos-comandos-que-funcionam-apenas-na-smarttv). Contudo, no caso da [Smart Tv](#smart-tv), por possuir funções especificas de controle, ela possui comandos a mais, além de junto com esses comandos receber um argumento descrevendo melhor a operação a ser realizada.
+Os dispositivos, conforme requisito, podem ser controlados via terminal usando linhas de comando. Esta operação simula o uso do dispositivo fisicamente, a exemplo apertar o botão liga e desliga. Sendo assim, há 2 formas de controle: via terminal, simulando o dispositivo fisico, ou pela interface, neste caso o comando trafega pela rede ate chegar ao dispositivo. A depender do comando requisitado, uma função é chamada para poder executar a ação. Essa ocorrencia se tem maior presença na [Smart Tv](#smart-tv) por possuir mais funcionalidades.
+
+O controle desdes dispositivos pela interface possui 4 funcionalidades genericas, conforme descrito na tabela [Possíveis comandos dos dispositivos](#possíveis-comandos-dos-dispositivos). Contudo, no caso da [Smart Tv](#smart-tv), por possuir funções especificas de controle, ela possui comandos a mais, além de junto com esses comandos receber um argumento descrevendo melhor a operação a ser realizada.
 
 É importante ressaltar que o dispositivo a partir do momento que consegue estabelecer conexão com o servidor, ele inicia a enviar o pacote de informações constantemente para ele. O envio só é encerrado ao realizar o desligamento do dispositivo. Dentre os dados enviados no pacote:
 
@@ -100,7 +105,20 @@ Este dispositivo busca simular uma Televisão Smart, contudo que realiza conexã
   - informa sobre o volume atual que esta configurado na televisão. Este que tem o intervalo de 0 a 100.
 
 ## Interface
-    falar das telas que tem de controle do dispositivo, e as telas quando nao tem dispositivo, e quando nao tem 
+
+A interface é o componente visual do projeto. Com o funcionamento utilizando protocolo de comunicação HTTP, foi desenvolvida uma interface grafica para facilitar controle das funções dos dispositivos, além da visualização dos dispositivos conectados. Para o desenvolvimento utilizou-se do framework [React JS](), visando dinamismo na apresentação dos elementos na tela.
+
+Uma estrutura foi desenvolvida para poder abacar diferentes situações em que poderiam acontecer tanto em relação ao servidor, como em relação aos dispositivos conectados. Um [componente]() foi criado com o intuito de ser "pai" dos outros subsequentes. Isso decorre deste ser responsável por [requisitar dados para o servidor](), e repassar estes para os componentes filhos.
+
+Diante disso, as telas apresentam uma tela geral que serve de background para os outros componentes. É nesse background em que é apresentado a [informação sobre a conexão com o servidor](), se conectado ou desconectado. Além disso, apresenta [boas vindas para o usuario](), e a data e hora atual. Caso o servidor esteja desconectado, nenhum outro componente é renderizado na tela, contudo com o servidor conectado outras 2 vertentes surgem a depender se há dispositivos conectados ao servidor. Considerando o primeiro caso, um componente é renderizado informando que não há dispositivos conectados, e assim que houver eles irão aparecer. Todavia no segundo caso, de haver dispositivos conectados é apresentado então os componentes para lidar com isso.
+
+A tela com dispositivos conectados, é a principal, tendo em vista que apresenta a lista de dispositivos conectados, as informações atualizadas que os dispositivos enviam, além de na lateral direita apresentar, quando selecionado um dispositivo, opções de controle. Caso não tenha dispositivos selecionados é informado nesse componente.
+
+### Comunicação HTTP
+
+A comunicação HTTP realizada pela interface para com o [servidor](#servidor-broker) ocorre seguindo os padrões da API Restful.
+
+As requisições feitas pela interface, 
 
 ## Comunicação
 
