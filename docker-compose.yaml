@@ -25,20 +25,20 @@ services:
       - "8082:8082"
   sensor:
     build:
-      context: ./devices
+      context: ./devices/sensor
     container_name: temperature_sensor
     environment:
-      - IP_BROKER=172.22.0.2
+      - IP_BROKER=server
     stdin_open: true
     tty: true
     networks:
       - iot-system-network
   tv:
     build:
-      context: ./devices
+      context: ./devices/tv
     container_name: television
     environment:
-      - IP_BROKER=192.168.0.115
+      - IP_BROKER=server
     stdin_open: true
     tty: true
     networks:

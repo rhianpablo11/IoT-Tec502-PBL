@@ -1,10 +1,82 @@
-# IoT-Tec502-PBL
+<div align='center'>
 
-## Como executar
-A primeira etapa diz respeito a clonar o repositorio para o seu dispositivo, o que pode ser feito usando o comando no terminal:
+# Problema 1 - IoT System 
 
-    git clone https://github.com/rhianpablo11/IoT-Tec502-PBL.git
+</div>
 
+> Este é um projeto da disciplina TEC502 - Modulo Integrador - Concorrencia e Conectividade, em que visa estabelecer comunicação entre computadores ligados na mesma rede, utilizando para isso diferentes protocolos de comunicação.
+
+## Download do repositorio
+
+<div align='center'>
+O download pode ser feito via clone do repositorio executando o seguinte comando no terminal:
+
+``` bash
+git clone https://github.com/rhianpablo11/IoT-Tec502-PBL.git
+```
+
+</div>
+
+## Como executar 
+O desenvolvimento do projeto teve como um dos pilares a comunicação via rede entre as 3 partes: [Servidor](#servidor-broker), [Dispositivos](#dispositivo), e [Interface](#)
+
+1. ### Em computadores diferentes
+   1. Acesse a pasta geral do projeto pelo terminal
+   2. Escolha qual parte do projeto deseja executar na maquina
+      1. Para executar a <b>[Servidor Broker](#servidor-broker)</b> use os seguintes comandos:
+          ``` bash
+          docker build --pull --rm -f "server-broker/Dockerfile" -t server:latest "server-broker"
+          ```
+          
+          ``` bash
+          docker container run -it --network host server
+          ```
+          1. Para executar a <b>[Interface](#interface)</b> use os seguintes comandos:
+           ``` bash
+           docker build --pull --rm -f "interface/Iot-system/Dockerfile" -t interface:latest "interface/Iot-system"
+           ```
+           
+           ``` bash
+           docker container run -it --network host interface
+           ```
+       2. Para executar o dispositivo <b>[Televisão](#smart-tv)</b> use os seguintes comandos:
+          ``` bash
+           docker build --pull --rm -f "devices/tv/Dockerfile" -t televisao:latest "devices/tv"
+           ```
+           
+           ``` bash
+           docker container run -it --network host televisao
+           ```
+       3. Para executar o dispositivo <b>[sensor de temperatura](#sensor-de-temperatura)</b> use os seguintes comandos:
+          ``` bash
+           docker build --pull --rm -f "devices/sensor/Dockerfile" -t sensor:latest "devices/sensor"
+           ```
+           
+           ``` bash
+           docker container run -it --network host sensor
+           ```
+2. ### No mesmo computador
+   1. Acesse a pasta geral do projeto pelo terminal
+   2. Execute o comando para executar o [Servidor Broker](#servidor-broker):
+         ``` bash
+         docker compose up server interface --build
+         ```
+   3. Execute os seguintes comandos em outra guia do terminal para executar o dispositivo, uma guia por dispositivo:
+      1. Para executar o dispositivo [Televisão](#smart-tv):
+         ``` bash
+           docker compose tv --build
+         ```
+         ``` bash
+           docker container run -it --network iot-tec502-pbl_iot-system-network -e IP_BROKER=server iot-tec502-pbl-tv
+           ```
+         
+       2. Para executar o dispositivo [Sensor de temperatura](#sensor-de-temperatura):
+           ``` bash
+           docker compose sensor --build
+           ```
+           ``` bash
+           docker container run -it --network iot-tec502-pbl_iot-system-network -e IP_BROKER=server iot-tec502-pbl-sensor
+           ```
 ## Estrutura do projeto
 A estrutura utilizada na construção do projeto se divide em 3 elementos:
   
@@ -26,9 +98,9 @@ Ainda deve-se pontuar o [gerenciamento dos dados recebidos](https://github.com/r
 O servidor broker desenvolvido na linguagem python, tem o papel de realizar multiplas ações ao mesmo tempo. Em decorrencia de precisar lidar com multiplos dispositivos conectados, recebendo requisições HTTP, e dados via UDP, além do processamento dessas informações e envio de dados seja para o dispositivo, seja para a interface. Afim de permitir dinamismo na operação o uso de threads é essencial para o funcionamento.
 
 ## Dispositivo
-Para realizar a simulação de um dispositivo de IoT, Internet das Coisas, houve a necessidade de criar um programa que realizasse as ações de um.
+Para realizar a simulação de um dispositivo de Internet das Coisas(*Internet of Things*, IoT), houve a necessidade de criar um programa que realizasse as ações de um.
 Os dispotivos haviam uma restrição na sua criação, em que eles só devem ser capazes de realizar comunicação via TCP ou UDP, o que aumentou a necessidade do servidor, já que este faz uma especie de tradução para receber comandos da interface e enviar para o dispositivo.<br>
-Com o proposito de padronizar a comunicação para melhor efetividade e escalabilidade, foi decidido usar comandos nas trocas de mensagens. A escolha, permite que sejam enviados um pacote menor de dados pela rede, além de que este simplifica o pedir de ações. Na tabela [Possíveis comandos dos dispositivos](#possíveis-comandos-dos-dispositivos) é possível ver os comandos e o que cada um realiza.
+Com o proposito de padronizar a comunicação para melhor efetividade e escalabilidade, foi decidido usar comandos nas trocas de mensagens. A escolha, permite que sejam enviados um pacote menor de dados pela rede, além de que este simplifica o pedir de ações. Tabela [Possíveis comandos dos dispositivos](#possíveis-comandos-dos-dispositivos) descreve os comandos e o que cada um realiza.
 <div align="center">
 
 #### Possíveis comandos dos dispositivos
@@ -114,12 +186,23 @@ Diante disso, as telas apresentam uma tela geral que serve de background para os
 
 A tela com dispositivos conectados, é a principal, tendo em vista que apresenta a lista de dispositivos conectados, as informações atualizadas que os dispositivos enviam, além de na lateral direita apresentar, quando selecionado um dispositivo, opções de controle. Caso não tenha dispositivos selecionados é informado nesse componente.
 
-### Comunicação HTTP
+
+
+## Comunicação
+Um dos pontos principais do projeto é a comunicação entre os modulos do projeto, para que a informação possa ser 
+
+
+### Comunicação Servidor-Interface
 
 A comunicação HTTP realizada pela interface para com o [servidor](#servidor-broker) ocorre seguindo os padrões da API Restful.
 
 As requisições feitas pela interface, 
+### Comunicação Servidor-Dispositivo
 
-## Comunicação
+## Testes
 
-### Casos de erro
+A execução de testes foi essencial para a realização do projeto
+
+## Conclusão
+
+## Referencias

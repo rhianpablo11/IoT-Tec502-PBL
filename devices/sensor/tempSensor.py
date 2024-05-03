@@ -23,8 +23,8 @@ clientTCP = None
 clientUDP = None
 addressDisp =socket.gethostbyname(socket.gethostname())
 
-#ipBroker= os.getenv('IP_BROKER')
-ipBroker='192.168.0.115'
+ipBroker= os.getenv('IP_BROKER')
+#ipBroker='192.168.0.115'
 connected = False
 
 addresses = {'IP':ipBroker, 'UDP':8081, 'TCP':8080}
