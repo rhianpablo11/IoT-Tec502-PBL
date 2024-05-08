@@ -48,7 +48,10 @@ def getDevices():
                 "deviceState": "desligado"
             }
         devicesList.append(auxJson)
-    return make_response(jsonify(devicesList))
+    response = make_response(jsonify(devicesList))
+    response.headers['Cache-Control'] = 'public, max-age=1'
+    return response
+
 
 
 @app.route("/devices", methods=['PATCH'])
@@ -58,17 +61,17 @@ def updateDataInterface():
         if (str(device) == elemento["address"]):
             devices[device][1] = elemento["name"]
             sendMensageTCP(device, str("104"+"?"+elemento["name"]+"?"+IP))
-            return make_response(jsonify(
-                {
-                    "address": device,
-                    "name": mensages[device][4],
-                    "lastData": mensages[device][0],
-                    "type": mensages[device][1],
-                    "timeLastData":mensages[device][2],
-                    "deviceState": "conected"
-                }
-            ))
-    return make_response(jsonify(elemento))
+            response = make_response(jsonify({
+                    "Nome anterior": mensages[device][4],
+                    "novo nome": elemento["name"]
+                }))
+            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+            return response
+            
+        
+    response = make_response(jsonify({"Response":"Endereço invalido, o endereço enviado não existe"}))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    return response
 
 @app.route('/devices/control', methods=['PATCH'])
 def comandsControlDevice():
@@ -76,7 +79,14 @@ def comandsControlDevice():
     for device in devices:
         if(str(device) == elemento['address']):
             devices[device][0].send(str(elemento['comand']+'?'+IP).encode())
-    return make_response(jsonify(elemento))
+            response = make_response(jsonify({"comando":elemento['comand']}))
+            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+            return response
+            
+    response = make_response(jsonify({"Response":"Endereço invalido, o endereço enviado não existe"}))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    return response
+    
 
 @app.route('/devices/delete', methods=['DELETE'])
 def comandDeleteDevice():
@@ -84,7 +94,12 @@ def comandDeleteDevice():
     for device in devices:
         if(str(device) == elemento['address']):
             devices[device][0].send(str(elemento['comand']+'?'+IP).encode())
-    return make_response(jsonify(elemento))
+            response = make_response(jsonify({"comando":elemento['comand']}))
+            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+            return response
+    response = make_response(jsonify({"Response":"Endereço invalido, o endereço enviado não existe"}))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    return response
 
 
 @app.route('/devices/tv/control/app', methods=['PATCH'])
@@ -93,7 +108,12 @@ def comandsControlDeviceTv():
     for device in devices:
         if(str(device) == elemento['address']):
             devices[device][0].send(str(elemento['comand']+'?'+elemento['app']+'?'+IP).encode())
-    return make_response(jsonify(elemento))
+            response = make_response(jsonify({"comando":elemento['comand']}))
+            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+            return response
+    response = make_response(jsonify({"Response":"Endereço invalido, o endereço enviado não existe"}))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    return response
 
 
 

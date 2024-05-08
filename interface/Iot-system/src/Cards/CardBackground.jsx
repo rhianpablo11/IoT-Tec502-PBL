@@ -96,7 +96,7 @@ function CardBackground(props){
                                 </h2>
                             </div>
                             <div className={styles.logo}>
-                                <a href="#">
+                                <a href="https://github.com/rhianpablo11/IoT-Tec502-PBL">
                                     <img src={logo}>
                                     </img>
                                 </a>
