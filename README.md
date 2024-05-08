@@ -124,7 +124,7 @@ Ademais, no projeto foi feito uso da ferramenta de *Docker*, a fim de permitir q
     
 ### Servidor Broker
 O servidor Broker é a parte central de todo esse projeto, sendo responsável por estabelecer comunicação com os dispositivos, sensor de temperatura e Smart TV, assim como com a interface. Para tal ação ele necessita de uma conexão, TCP e UDP, com cada dispositivo para que possa enviar comandos e receber os dados do dispositivo. O envio e recebimento de dados com a interface ocorre usando o protocolo HTTP, não exigindo o firmamento de uma conexão com o servidor.
-  Ainda deve-se pontuar o [gerenciamento dos dados recebidos](https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/server-broker/server.py#L131), para manter sempre os últimos dados recebidos salvos, e estruturados. Tal ação permite que as requisições de dados feita pelo cliente sejam respondidas mais rápido, tendo em vista não precisar pedir estes do dispositivo. Essa estrutura padrão de organização dos dados recebidos é um dos pilares que permite o funcionamento em conjunto dos 3 dispositivos. Segue a estrutura padrão utilizada:
+  Ainda deve-se pontuar o [gerenciamento dos dados recebidos](https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/server-broker/server.py#L151), para manter sempre os últimos dados recebidos salvos, e estruturados. Tal ação permite que as requisições de dados feita pelo cliente sejam respondidas mais rápido, tendo em vista não precisar pedir estes do dispositivo. Essa estrutura padrão de organização dos dados recebidos é um dos pilares que permite o funcionamento em conjunto dos 3 dispositivos. Segue a estrutura padrão utilizada:
   - **Address**: É a chave do dicionário de mensagens. Contém o endereço IP do dispositivo
   - **LastData**: contém o último dado recebido pelo dispositivo
   - **Type**: contém o tipo do dispositivo
@@ -133,17 +133,17 @@ O servidor Broker é a parte central de todo esse projeto, sendo responsável po
   - **Name**: contém o nome do dispositivo 
 
   A fim de permitir as diversas funções em conjunto no servidor, foi essencial utilização de Threads, para permitir execução de funções em segundo plano, enquanto outras operam. Essa forma de implementar proporciona maior dinamismo, e execução com maior desempenho em relação a execução de operações sequencialmente, além de que dados poderiam  ser facilmente perdidos nessa última situação. A exemplo do uso dos Threads, a organização das mensagens recebidas enquanto o servidor pode aceitar novas conexões de outros dispositivos. Dentre os Threads utilizados:
-  - [**Thread Principal**]():
-    Tem o papel de executar o código que mantém o sistema ativo por meio de um while True. Nesse [bloco de código]() há impressão de texto na tela com algumas informações principais sobre o servidor. Dentre as informações estão: O endereço IP do servidor, o nome do host em que está rodando o servidor, o ip deste host, e logo após uma lista dos dispositivos, contendo o nome, o endereço IP e a hora do último dado recebido.
-  - [**Thread para aceitar conexões**]():
+  - [**Thread Principal**](https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/server-broker/server.py#L221):
+    Tem o papel de executar o código que mantém o sistema ativo por meio de um while True. Nesse [bloco de código](https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/server-broker/server.py#L221) há impressão de texto na tela com algumas informações principais sobre o servidor. Dentre as informações estão: O endereço IP do servidor, o nome do host em que está rodando o servidor, o ip deste host, e logo após uma lista dos dispositivos, contendo o nome, o endereço IP e a hora do último dado recebido.
+  - [**Thread para aceitar conexões**](https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/server-broker/server.py#L216):
     A função dessa thread se concentra em aceitar a conexão de novos dispositivos, e por conseguinte salvá-los no *Hash Map* que contém os dispositivos, e os objetos de conexão. Dessa forma o Hashmap contém o endereço IP do dispositivo como chave, e o objeto de conexão e a hora da última comunicação do dispositivo como valores.
-  - [**Thread para receber mensagens**]():
-    Realiza a função de ficar escutando por novas mensagens provindas dos dispositivos. Estas mensagens chegam via protocolo UDP. Para cada mensagem recebida é chamada a função [organizeInfosReceived](), a qual organiza a mensagem no dicionário de mensagens. Com isso, caso seja a primeira mensagem do dispositivo, ela é adicionada no dicionário, em caso contrário, a mensagem presente é atualizada pela última recebida.
-  - [**Thread para verificar se o dispositivo está ativo**]():
+  - [**Thread para receber mensagens**](https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/server-broker/server.py#L217):
+    Realiza a função de ficar escutando por novas mensagens provindas dos dispositivos. Estas mensagens chegam via protocolo UDP. Para cada mensagem recebida é chamada a função [organizeInfosReceived](https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/server-broker/server.py#L151), a qual organiza a mensagem no dicionário de mensagens. Com isso, caso seja a primeira mensagem do dispositivo, ela é adicionada no dicionário, em caso contrário, a mensagem presente é atualizada pela última recebida.
+  - [**Thread para verificar se o dispositivo está ativo**](https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/server-broker/server.py#L218):
     Serve para poder verificar se os dispositivos salvos ainda estão ativos, e em caso contrário realiza limpeza deste ao excluí-lo do *Hash Map*. Vale ressaltar que os dispositivos enviam dados continuamente a cada 1 segundo, e essa verificação permite uma pausa de 9 segundos sem recebimento de mensagem no servidor.
-  - [**Thread para enviar sinal de atividade para o dispositivo**]():
+  - [**Thread para enviar sinal de atividade para o dispositivo**](https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/server-broker/server.py#L219):
     Sua função é enviar para todos os dispositivos uma mensagem com código "103". Essa mensagem é um dos indicativos para os dispositivos de que o servidor está operante. Assim, quando o servidor cai, os dispositivos conseguem reconhecer e pausar a execução para tentar reconectar-se novamente.
-  - [**Thread para executar a API REST**]():
+  - [**Thread para executar a API REST**](https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/server-broker/server.py#L214):
     Tem o papel de executar a framework Flask, para poder funcionar a API REST, e atender as requisições recebidas via HTTP.
 
 
