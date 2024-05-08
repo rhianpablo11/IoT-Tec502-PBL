@@ -189,8 +189,8 @@ def deviceStatus():
             #print(f'\n{devices[device][2][0:19]}\nDEVICE: {device} TEMPO: {data.total_seconds()}\n')
             
             if(int(data.total_seconds() / 10)>=1):
-               
-                devices.pop(device)
+                if(device in devices):
+                    devices.pop(device)
                 if(device in mensages):
                     mensages.pop(device)
 
@@ -222,11 +222,13 @@ while 1:
     print('IP SERVER: ',IP)
     print('NOME DO PC: ', namePC)
     print('IP DO PC: ', ipPC)
+    #print('THREADS: ', threading.enumerate())
     print('\n             DEVICES: ')
     deviceCopy = devices.copy()
     for device in deviceCopy:
         if(device in mensages):
             print('==================================')
+            print("=====> HORA ATUAL: ",str(datetime.now())[11:19])
             print(f'=====> NAME: {mensages[device][4]}\n=====> ADDRESS: {device}\n=====> HOUR LAST DATA: {devices[device][1][11:19]}')
             print('==================================')
     time.sleep(0.3)
