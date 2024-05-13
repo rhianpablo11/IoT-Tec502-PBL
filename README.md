@@ -5,7 +5,7 @@
 </div>
 
 
-> Este é um projeto da disciplina TEC502 - Modulo Integrador - Concorrencia e Conectividade. Este há o problema de comunicação entre 2 modulos que utilizam meios diferentes de comunicação na rede. Visando solucionar foi desenvolvido os modulos, além de um servidor broker para poder permitir a comunicação, 2 dispositivos e 1 interface que se conectam com o broker para se comunicarem.
+> Este é um projeto da disciplina TEC502 - Modulo Integrador - Concorrencia e Conectividade. Este há o problema de comunicação entre 2 modulos que utilizam meios diferentes de comunicação na rede. Visando solucionar foi desenvolvido os modulos, além de um servidor broker para poder permitir a comunicação, 2 dispositivos e 1 interface que se conectam com o broker para se comunicarem. Para isso foi feito uso de sockets de comunicação nos protocolos TCP e UDP, para os dispositivos, além de uma API Rest para a interface.
 
 
 ## Download do repositorio
@@ -243,7 +243,12 @@ O servidor Broker é a parte central de todo esse projeto, sendo responsável po
 
 
   ### Comunicação
-  Um dos pontos principais do projeto é a comunicação entre os módulos utilizando diferentes protocolos. Seguindo um dos requisitos do projeto, a interface realiza comunicações via HTTP por meio de uma API Restful, e os dispositivos utilizam uma abordagem com protocolos TCP e UDP. Tendo em vista que a interface apresenta as informações dos dispositivos, além de controlá-los, logo a comunicação entre eles é necessária. A fim de permitir essa ocorrência, é necessário o uso de um servidor broker, para receber as informações e fazer os devidos encaminhamentos quando necessário, utilizando o protocolo adequado de comunicação. Dessa forma o servidor atende tanto a protocolos HTTP, como TCP e UDP.
+  Um dos pontos principais do projeto é a comunicação entre os módulos utilizando diferentes protocolos. Seguindo um dos requisitos do projeto, a interface realiza comunicações via HTTP por meio de uma API Restful, e os dispositivos utilizam uma abordagem com protocolos TCP e UDP. Tendo em vista que a interface apresenta as informações dos dispositivos, além de controlá-los, logo a comunicação entre eles é necessária. A fim de permitir essa ocorrência, é necessário o uso de um servidor broker, para receber as informações e fazer os devidos encaminhamentos quando necessário, utilizando o protocolo adequado de comunicação. Dessa forma o servidor atende tanto a protocolos HTTP, como TCP e UDP. O fluxo com o protocolo de cada mensagem, adjunto seu remetente e destinatario pode ser vista na Figura 1.
+
+  <p align="center">
+    <img width="" src="https://github.com/rhianpablo11/IoT-Tec502-PBL/blob/main/assets/diagrama_comunicacao.png" />
+    Fig 1. Fluxo dos protocolos das mensagens
+  </p>
 
   #### Comunicação Servidor-Interface
 
