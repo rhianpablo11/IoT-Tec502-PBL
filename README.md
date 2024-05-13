@@ -3,9 +3,9 @@
 # Problema 1 - IoT System 
 
 </div>
-Melhorar esse resumo
 
-> Este é um projeto da disciplina TEC502 - Modulo Integrador - Concorrencia e Conectividade. Este há o problema de comunicação entre 2 modulos que utilizam meios diferentes de comunicação na rede. Visando solucionar foi desenvolvido os modulos, além de um servidor broker para poder permitir a comunicação. 
+
+> Este é um projeto da disciplina TEC502 - Modulo Integrador - Concorrencia e Conectividade. Este há o problema de comunicação entre 2 modulos que utilizam meios diferentes de comunicação na rede. Visando solucionar foi desenvolvido os modulos, além de um servidor broker para poder permitir a comunicação, 2 dispositivos e 1 interface que se conectam com o broker para se comunicarem.
 
 
 ## Download do repositorio
